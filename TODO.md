@@ -17,11 +17,11 @@ Full details for each milestone are in [ROADMAP.md](ROADMAP.md).
 
 ## Milestone 2 — Manual Mood Logging (Week 2)
 
-- [ ] Migration `002_entries.sql`: `mood_entries` table + RLS policies
-- [ ] `/app/log` page: mood slider (1–10), energy slider (1–10), text reflection
-- [ ] `/app/history` page: chronological feed, filter by date range and mood
-- [ ] Entry detail view (`/app/entries/[id]`) with edit/delete
-- [ ] Server Actions for mutations; React Query for cache
+- [x] Migration `002_entries.sql`: `mood_entries` table + RLS policies
+- [x] `/log` page: mood slider (1–10), energy slider (1–10), text reflection
+- [x] `/history` page: chronological feed, filter by date range and mood
+- [x] Entry detail view (`/entries/[id]`) with edit/delete
+- [x] Server Actions for mutations (saveEntry, updateEntry, deleteEntry)
 
 ---
 
