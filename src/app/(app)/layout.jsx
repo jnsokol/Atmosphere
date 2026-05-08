@@ -1,14 +1,31 @@
 import Link from "next/link";
+import { createClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
+import { signOut } from "@/server/actions/auth";
 
-// TODO M1: redirect to /login if no Supabase session.
-export default function AppLayout({ children }) {
+export default async function AppLayout({ children }) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) redirect("/login");
+
   return (
     <div className="mx-auto max-w-3xl px-6 py-8">
-      <nav className="mb-8 flex gap-6 text-sm text-white/70">
-        <Link href="/log">Log</Link>
-        <Link href="/history">History</Link>
-        <Link href="/insights">Insights</Link>
-      </nav>
+      <header className="mb-8 flex items-center justify-between">
+        <nav className="flex gap-6 text-sm text-white/70">
+          <Link href="/log" className="hover:text-white">Log</Link>
+          <Link href="/history" className="hover:text-white">History</Link>
+          <Link href="/insights" className="hover:text-white">Insights</Link>
+        </nav>
+        <form action={signOut}>
+          <button
+            type="submit"
+            className="text-sm text-white/50 hover:text-white"
+          >
+            Sign out
+          </button>
+        </form>
+      </header>
       {children}
     </div>
   );

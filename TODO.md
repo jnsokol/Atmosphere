@@ -6,12 +6,12 @@ Full details for each milestone are in [ROADMAP.md](ROADMAP.md).
 
 ## Milestone 1 — Foundation & Auth (Week 1)
 
-- [ ] Initialize Next.js 15 (App Router, TypeScript, Tailwind)
-- [ ] Configure Supabase project; wire up `@supabase/ssr` for server-side auth
-- [ ] Email/password auth + magic link
-- [ ] Protected `/app` route group; redirect unauthenticated users to `/login`
-- [ ] Base layout: top nav, auth state, sign-out
-- [ ] Apply migration `001_init.sql`
+- [x] Initialize Next.js 15 (App Router, JavaScript, Tailwind)
+- [x] Configure Supabase project; wire up `@supabase/ssr` for server-side auth
+- [x] Email/password auth + magic link
+- [x] Protected route group; redirect unauthenticated users to `/login`
+- [x] Base layout: top nav, auth state, sign-out
+- [ ] Apply migration `001_init.sql` (requires live Supabase project)
 
 ---
 
