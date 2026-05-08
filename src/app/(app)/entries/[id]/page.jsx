@@ -1,8 +1,9 @@
 import { createClient } from "@/lib/supabase/server";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import Link from "next/link";
 import EditEntryForm from "@/components/edit-entry-form";
 import DeleteEntryButton from "@/components/delete-entry-button";
+import WeatherChip from "@/components/weather-chip";
 
 export default async function EntryDetailPage({ params }) {
   const { id } = await params;
@@ -11,7 +12,7 @@ export default async function EntryDetailPage({ params }) {
 
   const { data: entry, error } = await supabase
     .from("mood_entries")
-    .select("*")
+    .select("*, weather_snapshots(*)")
     .eq("id", id)
     .eq("user_id", user.id)
     .single();
@@ -34,10 +35,20 @@ export default async function EntryDetailPage({ params }) {
 
       <p className="mb-6 text-sm text-white/50">{dateStr} · {timeStr}</p>
 
-      <div className="mb-8 flex gap-8">
+      <div className="mb-6 flex gap-8">
         <Stat label="Mood" value={entry.mood} />
         <Stat label="Energy" value={entry.energy} />
       </div>
+
+      {entry.weather_snapshots && (
+        <div className="mb-8">
+          <WeatherChip weather={entry.weather_snapshots} />
+          <div className="mt-2 flex gap-4 text-xs text-white/40">
+            <span>💧 {entry.weather_snapshots.humidity}% humidity</span>
+            <span>☁️ {entry.weather_snapshots.cloud_cover_pct}% cloud cover</span>
+          </div>
+        </div>
+      )}
 
       {entry.reflection && (
         <blockquote className="mb-8 rounded-xl bg-white/5 px-5 py-4 text-sm leading-relaxed text-white/80">

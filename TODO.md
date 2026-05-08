@@ -27,11 +27,11 @@ Full details for each milestone are in [ROADMAP.md](ROADMAP.md).
 
 ## Milestone 3 — Weather Enrichment (Week 3)
 
-- [ ] Browser geolocation prompt on `/app/log`; manual city picker fallback
-- [ ] `saveEntry` calls OpenWeatherMap on every save
-- [ ] Migration `003_weather.sql`: `weather_snapshots` table linked 1:1 to entries
-- [ ] Cache identical (lat, lon, hour) lookups for 30 minutes
-- [ ] Show captured weather as a chip on the history feed
+- [x] Browser geolocation prompt on `/log`; graceful fallback if denied
+- [x] `saveEntry` calls OpenWeatherMap on every save (non-blocking)
+- [x] Migration `003_weather.sql`: `weather_snapshots` table linked 1:1 to entries
+- [ ] Cache identical (lat, lon, hour) lookups for 30 minutes (deferred — Next.js fetch revalidate handles basic caching)
+- [x] Show captured weather as a chip on the history feed and entry detail
 
 ---
 

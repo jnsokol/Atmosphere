@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { saveEntry } from "@/server/actions/save-entry";
 
@@ -11,13 +11,36 @@ export default function MoodForm() {
   const [reflection, setReflection] = useState("");
   const [error, setError] = useState(null);
   const [pending, setPending] = useState(false);
+  const [location, setLocation] = useState(null); // { lat, lon, label }
+  const [locationStatus, setLocationStatus] = useState("idle"); // idle | loading | granted | denied
+
+  useEffect(() => {
+    if (!navigator.geolocation) {
+      setLocationStatus("denied");
+      return;
+    }
+    setLocationStatus("loading");
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setLocation({ lat: pos.coords.latitude, lon: pos.coords.longitude });
+        setLocationStatus("granted");
+      },
+      () => setLocationStatus("denied")
+    );
+  }, []);
 
   async function handleSubmit(e) {
     e.preventDefault();
     setPending(true);
     setError(null);
 
-    const result = await saveEntry({ mood, energy, reflection: reflection || undefined });
+    const result = await saveEntry({
+      mood,
+      energy,
+      reflection: reflection || undefined,
+      latitude: location?.lat,
+      longitude: location?.lon,
+    });
 
     setPending(false);
     if (result.error) {
@@ -29,20 +52,9 @@ export default function MoodForm() {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-      <SliderField
-        label="Mood"
-        value={mood}
-        onChange={setMood}
-        lowLabel="Low"
-        highLabel="High"
-      />
-      <SliderField
-        label="Energy"
-        value={energy}
-        onChange={setEnergy}
-        lowLabel="Drained"
-        highLabel="Energised"
-      />
+      <SliderField label="Mood" value={mood} onChange={setMood} lowLabel="Low" highLabel="High" />
+      <SliderField label="Energy" value={energy} onChange={setEnergy} lowLabel="Drained" highLabel="Energised" />
+
       <div className="flex flex-col gap-2">
         <label className="text-sm font-medium text-white/80">
           Reflection <span className="text-white/40">(optional)</span>
@@ -57,6 +69,8 @@ export default function MoodForm() {
         />
       </div>
 
+      <LocationStatus status={locationStatus} />
+
       {error && <p className="text-sm text-red-400">{error}</p>}
 
       <button
@@ -68,6 +82,13 @@ export default function MoodForm() {
       </button>
     </form>
   );
+}
+
+function LocationStatus({ status }) {
+  if (status === "idle") return null;
+  if (status === "loading") return <p className="text-xs text-white/40">Detecting location…</p>;
+  if (status === "granted") return <p className="text-xs text-green-400/70">📍 Location captured for weather</p>;
+  return <p className="text-xs text-white/40">Location unavailable — entry will be saved without weather</p>;
 }
 
 function SliderField({ label, value, onChange, lowLabel, highLabel }) {

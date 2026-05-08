@@ -1,4 +1,5 @@
 import Link from "next/link";
+import WeatherChip from "@/components/weather-chip";
 
 const MOOD_COLORS = {
   high: "text-green-400",
@@ -26,8 +27,11 @@ export default function EntryCard({ entry }) {
       href={`/entries/${entry.id}`}
       className="flex items-start justify-between rounded-xl bg-white/5 px-5 py-4 transition-colors hover:bg-white/10"
     >
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1.5">
         <span className="text-sm text-white/50">{dateStr} · {timeStr}</span>
+        {entry.weather_snapshots && (
+          <WeatherChip weather={entry.weather_snapshots} />
+        )}
         {entry.reflection && (
           <p className="mt-1 line-clamp-2 text-sm text-white/80">{entry.reflection}</p>
         )}

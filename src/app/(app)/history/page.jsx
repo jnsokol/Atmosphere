@@ -9,7 +9,7 @@ export default async function HistoryPage({ searchParams }) {
 
   let query = supabase
     .from("mood_entries")
-    .select("*")
+    .select("*, weather_snapshots(*)")
     .eq("user_id", user.id)
     .order("created_at", { ascending: false })
     .limit(50);
