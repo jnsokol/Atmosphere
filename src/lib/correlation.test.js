@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { pearson } from "./correlation";
+import { pearson } from "./correlation.js";
 
 describe("pearson", () => {
   it("returns 1 for perfectly correlated series", () => {

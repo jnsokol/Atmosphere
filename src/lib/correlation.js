@@ -1,5 +1,5 @@
 /** Pearson correlation between two equal-length numeric arrays. */
-export function pearson(xs: number[], ys: number[]): number {
+export function pearson(xs, ys) {
   if (xs.length !== ys.length) throw new Error("length mismatch");
   const n = xs.length;
   if (n < 2) return 0;
@@ -21,7 +21,7 @@ export function pearson(xs: number[], ys: number[]): number {
   return denom === 0 ? 0 : num / denom;
 }
 
-export function meanBy<T>(rows: T[], pick: (r: T) => number): number {
+export function meanBy(rows, pick) {
   if (rows.length === 0) return 0;
   return rows.reduce((a, r) => a + pick(r), 0) / rows.length;
 }

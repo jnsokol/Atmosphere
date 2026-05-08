@@ -1,12 +1,11 @@
-import type { Metadata } from "next";
 import "./globals.css";
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "Atmosphere",
   description: "Find the hidden links between your mood and your environment.",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="min-h-screen bg-atmosphere-night text-white antialiased">

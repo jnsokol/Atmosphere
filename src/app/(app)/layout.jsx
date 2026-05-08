@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 // TODO M1: redirect to /login if no Supabase session.
-export default function AppLayout({ children }: { children: React.ReactNode }) {
+export default function AppLayout({ children }) {
   return (
     <div className="mx-auto max-w-3xl px-6 py-8">
       <nav className="mb-8 flex gap-6 text-sm text-white/70">

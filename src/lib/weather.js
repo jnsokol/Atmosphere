@@ -10,19 +10,8 @@ const OwmCurrentSchema = z.object({
   weather: z.array(z.object({ main: z.string(), description: z.string() })).min(1),
 });
 
-export type WeatherSnapshot = {
-  tempC: number;
-  humidity: number;
-  pressureHpa: number;
-  cloudCoverPct: number;
-  condition: string;
-};
-
 /** Server-only. Never import from a 'use client' file. */
-export async function fetchCurrentWeather(
-  lat: number,
-  lon: number,
-): Promise<WeatherSnapshot | null> {
+export async function fetchCurrentWeather(lat, lon) {
   const key = process.env.OPENWEATHER_API_KEY;
   if (!key) throw new Error("OPENWEATHER_API_KEY is not set");
 

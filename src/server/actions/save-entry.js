@@ -13,7 +13,7 @@ const SaveEntryInput = z.object({
   longitude: z.number().min(-180).max(180).optional(),
 });
 
-export async function saveEntry(input: z.infer<typeof SaveEntryInput>) {
+export async function saveEntry(input) {
   const data = SaveEntryInput.parse(input);
 
   // TODO M2: insert mood_entries row for auth.uid().

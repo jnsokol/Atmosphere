@@ -12,7 +12,7 @@ Atmosphere is a correlation-based mood tracker. See [README.md](README.md), [ROA
 
 ## Stack
 
-Next.js 15 (App Router) + TypeScript + Tailwind + shadcn/ui. Supabase for auth, Postgres, and Edge Functions. Recharts for visualization.
+Next.js 15 (App Router) + JavaScript + Tailwind + shadcn/ui. Supabase for auth, Postgres, and Edge Functions. Recharts for visualization. No TypeScript — all files use `.js` / `.jsx`.
 
 ## Conventions
 

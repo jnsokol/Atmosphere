@@ -4,7 +4,7 @@
 
 | Layer            | Choice                                  | Why                                                                    |
 | ---------------- | --------------------------------------- | ---------------------------------------------------------------------- |
-| Framework        | **Next.js 15** (App Router, TS)         | Server Actions remove most API boilerplate; SSR for the dashboard.     |
+| Framework        | **Next.js 15** (App Router, JS)         | Server Actions remove most API boilerplate; SSR for the dashboard.     |
 | UI               | **Tailwind CSS** + **shadcn/ui**        | Owned components, no runtime cost.                                     |
 | State / data     | **TanStack Query** + Server Actions     | Optimistic mutations, cache for the history feed.                      |
 | Backend          | **Supabase** (Postgres, Auth, Storage)  | Postgres + RLS gets us auth, multi-tenancy, and SQL for free.          |
