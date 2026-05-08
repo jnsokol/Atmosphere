@@ -29,7 +29,7 @@ export async function middleware(request) {
 
   const { pathname } = request.nextUrl;
   const protectedPaths = ["/log", "/history", "/insights", "/entries"];
-  const isProtected = protectedPaths.some((p) => pathname.startsWith(p));
+  const isProtected = protectedPaths.some((p) => pathname === p || pathname.startsWith(p + "/"));
 
   if (!user && isProtected) {
     const url = request.nextUrl.clone();
