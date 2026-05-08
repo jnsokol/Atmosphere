@@ -6,9 +6,25 @@ Guidance for AI coding agents (Claude Code, Cursor, Aider, Codex, etc.) working 
 
 1. [ARCHITECTURE.md](ARCHITECTURE.md) — schema, API strategy, project layout.
 2. [ROADMAP.md](ROADMAP.md) — current milestone defines what's in scope.
-3. [CLAUDE.md](CLAUDE.md) — repo conventions.
+3. [CLAUDE.md](.claude/CLAUDE.md) — repo conventions.
 
 Don't propose work outside the current milestone unless the user explicitly asks.
+
+## Single source of truth
+
+[ROADMAP.md](ROADMAP.md) and [ARCHITECTURE.md](ARCHITECTURE.md) are the only sources of truth for this project. Before every task or prompt, read both files and compare your intended plan against them. If your plan contradicts either document, align with the document — not your assumption.
+
+## After every task
+
+When a task is complete, commit the changes and push to GitHub:
+
+```bash
+git add <changed files>
+git commit -m "M<N>: <short description of what changed and why>"
+git push
+```
+
+Reference the current milestone number in every commit subject. Do not batch multiple tasks into one commit.
 
 ## Operating principles
 

@@ -2,6 +2,10 @@
 
 Guidance for Claude Code working in this repo.
 
+## Before everything
+
+Read [AGENTS.md](../AGENTS.md) before taking any action, every single session without exception.
+
 ## Project
 
 Atmosphere is a correlation-based mood tracker. See [README.md](README.md), [ROADMAP.md](ROADMAP.md), and [ARCHITECTURE.md](ARCHITECTURE.md) before making non-trivial changes.
