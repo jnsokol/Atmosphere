@@ -4,6 +4,52 @@ import { computeStreak, computeXP, getLevelInfo, computeUnlockedAchievements } f
 import EntryCard from "@/components/entry-card";
 import { AlertTriangle } from "lucide-react";
 
+const GREETINGS = {
+  morning: [
+    "Good morning",
+    "Rise and shine",
+    "Morning!",
+    "New day, new mood",
+    "Hello, sunshine",
+    "Start strong today",
+  ],
+  afternoon: [
+    "Good afternoon",
+    "Hope your day's going well",
+    "How's your day treating you?",
+    "Afternoon check-in",
+    "Halfway through the day",
+    "Keep the momentum",
+  ],
+  evening: [
+    "Good evening",
+    "How did today feel?",
+    "Wind down time",
+    "Evening, friend",
+    "Day almost done",
+    "Reflect on your day",
+  ],
+  night: [
+    "Up late?",
+    "Burning the midnight oil?",
+    "Still going?",
+    "Night owl mode",
+    "Late-night check-in",
+    "One last entry for today",
+  ],
+};
+
+function pickGreeting(now) {
+  const hour = now.getHours();
+  const slot = hour < 12 ? "morning" : hour < 18 ? "afternoon" : hour < 22 ? "evening" : "night";
+  const list = GREETINGS[slot];
+  // seed: day-of-year × 4 slots, deterministic per day+slot
+  const day = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / 86400000);
+  const slotIndex = ["morning", "afternoon", "evening", "night"].indexOf(slot);
+  const seed = day * 4 + slotIndex;
+  return list[seed % list.length];
+}
+
 export default async function DashboardPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -28,8 +74,8 @@ export default async function DashboardPage() {
   const streakAtRisk = streak > 0 && !loggedToday && !loggedYesterday;
 
   const displayName = profile?.display_name || user.email.split("@")[0];
-  const hour = now.getUTCHours();
-  const greeting = hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
+  const hour = now.getHours();
+  const greeting = pickGreeting(now);
 
   // 7-day mood strip
   const week = Array.from({ length: 7 }, (_, i) => {
