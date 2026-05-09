@@ -160,9 +160,8 @@ export default async function DashboardPage() {
 
       {/* 7-day strip — no card */}
       <div>
-        <div className="flex items-center justify-between mb-4">
+        <div className="mb-4">
           <p className="text-[11px] font-semibold uppercase tracking-widest text-white/20">Last 7 days</p>
-          {avgLast7 && <span className="text-xs text-white/25">avg {avgLast7}</span>}
         </div>
         <div className="flex items-end justify-between gap-1.5">
           {week.map(({ dateStr, dayLabel, mood, isToday }) => (
