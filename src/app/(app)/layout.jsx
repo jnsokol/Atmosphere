@@ -18,6 +18,7 @@ export default async function AppLayout({ children }) {
           <Link href="/history" className="hover:text-white">History</Link>
           <Link href="/insights" className="hover:text-white">Insights</Link>
           <Link href="/profile" className="hover:text-white">Profile</Link>
+          <Link href="/privacy" className="hover:text-white">Privacy</Link>
         </nav>
         <form action={signOut}>
           <button

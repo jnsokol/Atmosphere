@@ -66,8 +66,9 @@ Full details for each milestone are in [ROADMAP.md](ROADMAP.md).
 
 ## Milestone 6 — Polish, PWA & Deploy (Week 6)
 
-- [ ] Loading skeletons, empty states, error boundaries
-- [ ] PWA manifest + offline log form with sync-on-reconnect
+- [x] Loading skeletons on dashboard, history, insights, profile
+- [x] Error boundary (error.jsx) + global not-found page
+- [x] PWA manifest + meta tags (add to home screen ready)
 - [ ] E2E tests (Playwright): signup → log → weather → dashboard
 - [ ] Deploy to Vercel; promote Supabase to production tier
-- [ ] Privacy page with data export and account deletion
+- [x] Privacy page with JSON data export and account deletion
