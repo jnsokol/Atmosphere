@@ -18,7 +18,7 @@ export default function DateClock() {
 
   return (
     <div className="mt-3 pt-3 border-t border-white/[0.07]">
-      <span className="text-2xl font-bold tabular-nums tracking-tight text-white/90">{timeStr}</span>
+      <span className="text-2xl font-medium tabular-nums tracking-tight text-white/70">{timeStr}</span>
       <p className="text-sm text-white/30 mt-0.5">{dateStr}</p>
     </div>
   );
