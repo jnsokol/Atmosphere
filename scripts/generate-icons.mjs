@@ -7,7 +7,7 @@ const svg = (size) => {
   const r = size * 0.5;
   const cx = size * 0.5;
   const cy = size * 0.5;
-  const radius = size * 0.42;
+  const radius = size * 0.32;
   const cornerRadius = size * 0.22;
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
