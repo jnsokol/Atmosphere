@@ -73,17 +73,21 @@ export default async function ProfilePage() {
       {/* Achievements */}
       <div>
         <h2 className="mb-3 text-xs font-semibold uppercase tracking-widest text-white/40">Achievements</h2>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="flex flex-wrap gap-4">
           {achievements.map((a) => (
-            <div
-              key={a.id}
-              className={`rounded-xl px-4 py-3 ${
-                a.unlocked ? "bg-white/10" : "bg-white/5 opacity-40"
-              }`}
-            >
-              <span className="text-2xl">{a.emoji}</span>
-              <p className="mt-1 text-sm font-medium">{a.title}</p>
-              <p className="text-xs text-white/50">{a.desc}</p>
+            <div key={a.id} className="group relative flex flex-col items-center">
+              <div
+                className={`flex h-14 w-14 items-center justify-center rounded-full text-2xl transition-transform group-hover:scale-110 ${
+                  a.unlocked ? "bg-white/15 ring-2 ring-white/30" : "bg-white/5 opacity-40 grayscale"
+                }`}
+              >
+                {a.emoji}
+              </div>
+              {/* Tooltip */}
+              <div className="pointer-events-none absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-36 rounded-lg bg-atmosphere-night border border-white/10 px-3 py-2 text-center opacity-0 shadow-lg transition-opacity group-hover:opacity-100 z-10">
+                <p className="text-xs font-semibold text-white">{a.title}</p>
+                <p className="mt-0.5 text-xs text-white/50">{a.desc}</p>
+              </div>
             </div>
           ))}
         </div>
