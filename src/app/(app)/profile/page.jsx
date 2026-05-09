@@ -34,17 +34,17 @@ export default async function ProfilePage() {
             <Image
               src={profile.avatar_url}
               alt="Avatar"
-              width={80}
-              height={80}
+              width={96}
+              height={96}
               className="rounded-2xl object-cover ring-1 ring-white/10"
             />
           ) : (
-            <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-atmosphere-day/30 to-atmosphere-dusk/30 text-2xl font-bold ring-1 ring-white/10">
+            <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-atmosphere-day/30 to-atmosphere-dusk/30 text-3xl font-bold ring-1 ring-white/10">
               {initials}
             </div>
           )}
           <div>
-            <h1 className="text-xl font-bold">{displayName}</h1>
+            <h1 className="text-2xl font-extrabold">{displayName}</h1>
             <p className="text-xs text-white/30 mt-0.5">{user.email}</p>
             {profile?.bio && (
               <p className="mt-1.5 text-sm text-white/55 leading-relaxed max-w-[180px]">{profile.bio}</p>
