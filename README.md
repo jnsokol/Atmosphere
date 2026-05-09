@@ -1,28 +1,70 @@
 # Atmosphere
 
-A correlation-based mood tracker that uncovers hidden links between your emotional state and your environment — weather, location, and music.
+A mood tracker that automatically enriches every entry with weather data and surfaces correlations between your emotional state and your environment.
 
-Unlike standard mood journals, Atmosphere acts as a personal data scientist: every manual entry is silently enriched with weather data (OpenWeatherMap) and listening history (Spotify), then surfaced through a correlation dashboard that answers questions like *"Does low barometric pressure correlate with my anxiety?"*
+## What it does
 
-## Documentation
+- **Log your mood & energy** — tap a 1–10 scale, add an optional reflection
+- **Automatic weather capture** — every entry is silently tagged with real-time temperature, conditions, humidity, pressure, and cloud cover from OpenWeatherMap
+- **Insights dashboard** — charts and auto-generated text insights (mood over time, by weekday, vs. air pressure, vs. cloud cover)
+- **Gamification** — XP system, 10 levels, 20 achievements
+- **Profile** — avatar, display name, bio, stats, streaks
+- **Installable PWA** — works on iOS, Android, and desktop as a standalone app
 
-- [ROADMAP.md](ROADMAP.md) — 6-milestone development plan
-- [ARCHITECTURE.md](ARCHITECTURE.md) — tech stack, schema, API strategy
-- [CLAUDE.md](CLAUDE.md) — guidance for Claude Code sessions
-- [AGENTS.md](AGENTS.md) — guidance for AI coding agents
+## Stack
 
-## Stack at a glance
-
-- **Frontend:** Next.js 15 (App Router) + TypeScript + Tailwind + shadcn/ui
-- **Backend:** Supabase (Postgres, Auth, RLS, Edge Functions)
+- **Frontend:** Next.js 15 (App Router) · JavaScript · Tailwind CSS
+- **Backend:** Supabase (Postgres · Auth · RLS · Storage)
 - **Charts:** Recharts
-- **External APIs:** OpenWeatherMap, Spotify Web API (OAuth2 PKCE)
+- **Weather:** OpenWeatherMap API
+- **Hosting:** Vercel
 
-## Quickstart
+## Local development
 
 ```bash
-cp .env.example .env.local       # fill in keys
+# 1. Clone and install
+git clone https://github.com/jnsokol/Atmosphere.git
+cd Atmosphere
 npm install
-npx supabase db reset            # apply migrations to local DB
+
+# 2. Set environment variables
+cp .env.example .env.local
+# Fill in NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, OPENWEATHER_API_KEY
+
+# 3. Apply database migrations (Supabase dashboard → SQL Editor)
+# Run each file in supabase/migrations/ in order
+
+# 4. Start dev server
 npm run dev
 ```
+
+## Environment variables
+
+| Variable | Description |
+|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | Your Supabase project URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon/public key |
+| `OPENWEATHER_API_KEY` | OpenWeatherMap API key |
+
+## Project structure
+
+```
+src/
+  app/
+    (app)/          # Authenticated routes (dashboard, log, history, insights, profile)
+    login/          # Auth page (sign in, sign up, magic link)
+    api/            # Upload and export endpoints
+  components/       # Shared UI components
+  lib/              # Supabase clients, gamification, insights, weather
+  server/actions/   # Server Actions (auth, entries, profile)
+supabase/
+  migrations/       # SQL migrations with RLS policies
+```
+
+## Installing as an app
+
+**iOS:** Open in Safari → Share → Add to Home Screen
+
+**Android:** Open in Chrome → menu (⋮) → Add to Home Screen
+
+**Desktop:** Open in Chrome/Edge → address bar install icon → Install

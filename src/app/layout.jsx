@@ -6,8 +6,12 @@ const syne  = Syne({ subsets: ["latin"], variable: "--font-syne",  display: "swa
 
 export const metadata = {
   title: "Atmosphere",
-  description: "Find the hidden links between your mood and your environment.",
+  description: "Track your mood. Capture the weather. Find the hidden patterns behind how you feel.",
   manifest: "/manifest.json",
+  icons: {
+    icon: "/icons/icon-192.png",
+    apple: "/icons/apple-touch-icon.png",
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
@@ -18,6 +22,7 @@ export const metadata = {
 export const viewport = {
   width: "device-width",
   initialScale: 1,
+  maximumScale: 1,
   themeColor: "#0b0d18",
 };
 

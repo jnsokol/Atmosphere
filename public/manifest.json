@@ -1,24 +1,53 @@
 {
   "name": "Atmosphere",
   "short_name": "Atmosphere",
-  "description": "Find the hidden links between your mood and your environment.",
+  "description": "Track your mood. Capture the weather. Find the hidden patterns behind how you feel.",
   "start_url": "/dashboard",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#1a1d2e",
-  "theme_color": "#1a1d2e",
   "orientation": "portrait",
+  "background_color": "#0b0d18",
+  "theme_color": "#0b0d18",
+  "categories": ["health", "lifestyle"],
   "icons": [
     {
       "src": "/icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
       "src": "/icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Log mood",
+      "short_name": "Log",
+      "url": "/log",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "View history",
+      "short_name": "History",
+      "url": "/history",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
     }
   ]
 }
