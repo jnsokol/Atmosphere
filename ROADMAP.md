@@ -80,6 +80,20 @@ Each milestone is a shippable slice. Don't start the next one until the previous
 
 ---
 
+## Milestone 5.5 — Dashboard, Profile & Gamification
+
+**Goal:** A home dashboard and a profile page with stats, levels, and achievements.
+
+- `/dashboard` — home page after login: streak, today's status, last 3 entries, quick stats, Log CTA.
+- `/profile` — display name, avatar upload (Supabase Storage), stats, XP bar, level, achievements grid.
+- Migration `005_profiles.sql`: `profiles` table (display_name, avatar_url).
+- `lib/gamification.js`: XP engine (entries, weather, reflections, streaks), 10 levels, 8 achievements.
+- Update nav and middleware default redirect to `/dashboard`.
+
+**Done when:** User can see their level, XP progress, unlocked achievements, and a live dashboard on login.
+
+---
+
 ## Milestone 6 — Polish, PWA & Deploy (Week 6)
 
 **Goal:** Production-ready.

@@ -28,7 +28,7 @@ export async function middleware(request) {
   const { data: { user } } = await supabase.auth.getUser();
 
   const { pathname } = request.nextUrl;
-  const protectedPaths = ["/log", "/history", "/insights", "/entries"];
+  const protectedPaths = ["/dashboard", "/log", "/history", "/insights", "/entries", "/profile"];
   const isProtected = protectedPaths.some((p) => pathname === p || pathname.startsWith(p + "/"));
 
   if (!user && isProtected) {
@@ -39,7 +39,7 @@ export async function middleware(request) {
 
   if (user && pathname === "/login") {
     const url = request.nextUrl.clone();
-    url.pathname = "/log";
+    url.pathname = "/dashboard";
     return NextResponse.redirect(url);
   }
 

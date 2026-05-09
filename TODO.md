@@ -54,6 +54,16 @@ Full details for each milestone are in [ROADMAP.md](ROADMAP.md).
 
 ---
 
+## Milestone 5.5 — Dashboard, Profile & Gamification
+
+- [x] `/dashboard` — streak, level bar, stats, recent entries, Log CTA
+- [x] `/profile` — avatar upload, display name, stats, level, achievements
+- [x] Migration `005_profiles.sql` — profiles table + RLS
+- [x] `lib/gamification.js` — XP, levels (10), streak, 8 achievements
+- [x] Nav updated with Home + Profile links
+
+---
+
 ## Milestone 6 — Polish, PWA & Deploy (Week 6)
 
 - [ ] Loading skeletons, empty states, error boundaries

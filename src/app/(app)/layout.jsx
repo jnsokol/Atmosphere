@@ -13,9 +13,11 @@ export default async function AppLayout({ children }) {
     <div className="mx-auto max-w-3xl px-6 py-8">
       <header className="mb-8 flex items-center justify-between">
         <nav className="flex gap-6 text-sm text-white/70">
+          <Link href="/dashboard" className="hover:text-white">Home</Link>
           <Link href="/log" className="hover:text-white">Log</Link>
           <Link href="/history" className="hover:text-white">History</Link>
           <Link href="/insights" className="hover:text-white">Insights</Link>
+          <Link href="/profile" className="hover:text-white">Profile</Link>
         </nav>
         <form action={signOut}>
           <button
