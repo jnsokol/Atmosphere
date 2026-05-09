@@ -8,6 +8,7 @@ const syne  = Syne({ subsets: ["latin"], variable: "--font-syne",  display: "swa
 
 export const metadata = {
   title: "Atmosphere",
+  other: { "google": "notranslate" },
   description: "Track your mood. Capture the weather. Find the hidden patterns behind how you feel.",
   manifest: "/manifest.json",
   icons: {
@@ -33,7 +34,7 @@ export const viewport = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${inter.variable} ${syne.variable}`}>
+    <html lang="en" translate="no" className={`${inter.variable} ${syne.variable}`}>
       <body className="min-h-screen bg-atmosphere-night text-white antialiased">
         {children}
         <Analytics />
