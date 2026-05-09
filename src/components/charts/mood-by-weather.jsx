@@ -31,7 +31,7 @@ export default function MoodByWeatherChart({ data }) {
         <Tooltip
           contentStyle={{ background: "#1a1d2e", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8 }}
           labelStyle={{ color: "rgba(255,255,255,0.5)", fontSize: 11 }}
-          itemStyle={{ color: "#fff", fontSize: 12 }}
+          itemStyle={{ fontSize: 11 }}
           formatter={(val, name) => [val ?? "—", "Avg mood"]}
           cursor={{ fill: "rgba(255,255,255,0.04)" }}
         />

@@ -25,7 +25,7 @@ export default function MoodVsPressureChart({ data }) {
         />
         <Tooltip
           contentStyle={{ background: "#1a1d2e", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8 }}
-          itemStyle={{ color: "#fff", fontSize: 11 }}
+          itemStyle={{ fontSize: 11 }}
           cursor={{ strokeDasharray: "3 3" }}
         />
         <Scatter data={data} fill="#f5d7b8" fillOpacity={0.7} />

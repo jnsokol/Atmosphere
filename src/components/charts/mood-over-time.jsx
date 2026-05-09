@@ -14,7 +14,7 @@ export default function MoodOverTimeChart({ data }) {
         <Tooltip
           contentStyle={{ background: "#1a1d2e", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8 }}
           labelStyle={{ color: "rgba(255,255,255,0.5)", fontSize: 11 }}
-          itemStyle={{ color: "#fff" }}
+          itemStyle={{ fontSize: 11 }}
         />
         <Line type="monotone" dataKey="mood" stroke="#7cb9e8" strokeWidth={2} dot={false} name="Mood" />
         <Line type="monotone" dataKey="energy" stroke="#9b6b9e" strokeWidth={2} dot={false} name="Energy" />
