@@ -12,14 +12,30 @@ export const LEVELS = [
 ];
 
 export const ACHIEVEMENTS = [
-  { id: "first_entry",      emoji: "🌱", title: "First Step",       desc: "Log your first entry" },
-  { id: "entries_10",       emoji: "📓", title: "Getting Started",  desc: "Log 10 entries" },
-  { id: "entries_50",       emoji: "⭐", title: "Dedicated",        desc: "Log 50 entries" },
-  { id: "entries_100",      emoji: "💯", title: "Century",          desc: "Log 100 entries" },
-  { id: "streak_7",         emoji: "🔥", title: "Week Warrior",     desc: "7-day logging streak" },
-  { id: "streak_30",        emoji: "🏆", title: "On Fire",          desc: "30-day logging streak" },
-  { id: "weather_10",       emoji: "🌤️", title: "Weather Watcher",  desc: "10 entries with weather data" },
-  { id: "reflection_10",    emoji: "📝", title: "Storyteller",      desc: "10 entries with a reflection" },
+  // Entry milestones
+  { id: "first_entry",   emoji: "🌱", title: "First Step",      desc: "Log your very first entry" },
+  { id: "entries_5",     emoji: "✨", title: "Warming Up",      desc: "Log 5 entries" },
+  { id: "entries_10",    emoji: "📓", title: "Getting Started", desc: "Log 10 entries" },
+  { id: "entries_25",    emoji: "🌿", title: "Growing",         desc: "Log 25 entries" },
+  { id: "entries_50",    emoji: "⭐", title: "Dedicated",       desc: "Log 50 entries" },
+  { id: "entries_100",   emoji: "💯", title: "Century",         desc: "Log 100 entries" },
+  { id: "entries_200",   emoji: "🚀", title: "Committed",       desc: "Log 200 entries" },
+  { id: "entries_365",   emoji: "🌍", title: "Year Strong",     desc: "Log 365 entries" },
+  // Streak milestones
+  { id: "streak_3",      emoji: "🔄", title: "Three Peat",      desc: "3-day logging streak" },
+  { id: "streak_7",      emoji: "🔥", title: "Week Warrior",    desc: "7-day logging streak" },
+  { id: "streak_14",     emoji: "🌊", title: "Fortnight",       desc: "14-day logging streak" },
+  { id: "streak_30",     emoji: "🏆", title: "On Fire",         desc: "30-day logging streak" },
+  { id: "streak_100",    emoji: "🏅", title: "Centurion",       desc: "100-day logging streak" },
+  // Quality milestones
+  { id: "reflection_10", emoji: "📝", title: "Storyteller",     desc: "10 entries with a reflection" },
+  { id: "reflection_25", emoji: "📖", title: "Journaller",      desc: "25 entries with a reflection" },
+  { id: "weather_10",    emoji: "🌤️", title: "Weather Watcher", desc: "10 entries with weather data" },
+  { id: "weather_25",    emoji: "🌦️", title: "Storm Tracker",   desc: "25 entries with weather data" },
+  // Special
+  { id: "perfect_entry", emoji: "⚡", title: "Perfect Day",     desc: "Log mood 10 & energy 10 in one entry" },
+  { id: "resilient",     emoji: "💪", title: "Resilient",       desc: "Log an entry even with mood ≤ 3" },
+  { id: "full_week",     emoji: "📅", title: "Perfect Week",    desc: "Log every day of a full Mon–Sun week" },
 ];
 
 /** Compute current streak (consecutive days with at least one entry, ending today or yesterday). */
@@ -90,22 +106,62 @@ export function getLevelInfo(xp) {
   return { current, next, xp, progress: Math.round(progress) };
 }
 
+function hasFullWeek(entries) {
+  const days = new Set(entries.map((e) => e.created_at.slice(0, 10)));
+  for (const day of days) {
+    const d = new Date(day + "T12:00:00Z");
+    const dow = d.getUTCDay();
+    const monday = new Date(d);
+    monday.setUTCDate(d.getUTCDate() - (dow === 0 ? 6 : dow - 1));
+    let allPresent = true;
+    for (let i = 0; i < 7; i++) {
+      const check = new Date(monday);
+      check.setUTCDate(monday.getUTCDate() + i);
+      if (!days.has(check.toISOString().slice(0, 10))) { allPresent = false; break; }
+    }
+    if (allPresent) return true;
+  }
+  return false;
+}
+
 export function computeUnlockedAchievements(entries) {
   const total = entries.length;
   const streak = computeStreak(entries);
   const longestStreak = computeLongestStreak(entries);
   const withWeather = entries.filter((e) => e.weather_snapshots).length;
   const withReflection = entries.filter((e) => e.reflection?.trim()).length;
+  const hasPerfect = entries.some((e) => e.mood >= 10 && e.energy >= 10);
+  const hasLowMood = entries.some((e) => e.mood <= 3);
 
   const unlocked = new Set();
+
+  // Entry milestones
   if (total >= 1)   unlocked.add("first_entry");
+  if (total >= 5)   unlocked.add("entries_5");
   if (total >= 10)  unlocked.add("entries_10");
+  if (total >= 25)  unlocked.add("entries_25");
   if (total >= 50)  unlocked.add("entries_50");
   if (total >= 100) unlocked.add("entries_100");
-  if (streak >= 7 || longestStreak >= 7)   unlocked.add("streak_7");
-  if (streak >= 30 || longestStreak >= 30) unlocked.add("streak_30");
-  if (withWeather >= 10)    unlocked.add("weather_10");
+  if (total >= 200) unlocked.add("entries_200");
+  if (total >= 365) unlocked.add("entries_365");
+
+  // Streak milestones (current or historical)
+  if (streak >= 3  || longestStreak >= 3)   unlocked.add("streak_3");
+  if (streak >= 7  || longestStreak >= 7)   unlocked.add("streak_7");
+  if (streak >= 14 || longestStreak >= 14)  unlocked.add("streak_14");
+  if (streak >= 30 || longestStreak >= 30)  unlocked.add("streak_30");
+  if (streak >= 100 || longestStreak >= 100) unlocked.add("streak_100");
+
+  // Quality milestones
   if (withReflection >= 10) unlocked.add("reflection_10");
+  if (withReflection >= 25) unlocked.add("reflection_25");
+  if (withWeather >= 10)    unlocked.add("weather_10");
+  if (withWeather >= 25)    unlocked.add("weather_25");
+
+  // Special
+  if (hasPerfect)           unlocked.add("perfect_entry");
+  if (hasLowMood)           unlocked.add("resilient");
+  if (hasFullWeek(entries)) unlocked.add("full_week");
 
   return ACHIEVEMENTS.map((a) => ({ ...a, unlocked: unlocked.has(a.id) }));
 }
