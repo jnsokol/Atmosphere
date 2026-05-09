@@ -1,5 +1,6 @@
 import "./globals.css";
 import { Inter, Syne } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 const syne  = Syne({ subsets: ["latin"], variable: "--font-syne",  display: "swap" });
@@ -34,6 +35,7 @@ export default function RootLayout({ children }) {
     <html lang="en" className={`${inter.variable} ${syne.variable}`}>
       <body className="min-h-screen bg-atmosphere-night text-white antialiased">
         {children}
+        <Analytics />
       </body>
     </html>
   );
