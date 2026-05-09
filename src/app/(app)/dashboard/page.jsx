@@ -73,9 +73,11 @@ export default async function DashboardPage() {
     <section className="flex flex-col gap-10">
 
       {/* Greeting */}
-      <div className="pt-1">
-        <Greeting />
-        <h1 className="text-4xl font-bold mt-0.5">{displayName}</h1>
+      <div className="pt-1 flex items-center justify-between gap-4">
+        <div>
+          <Greeting />
+          <h1 className="text-4xl font-bold mt-0.5">{displayName}</h1>
+        </div>
         <DateClock />
       </div>
 

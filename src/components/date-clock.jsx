@@ -17,9 +17,9 @@ export default function DateClock() {
   const timeStr = now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
 
   return (
-    <div className="mt-3 pt-3 border-t border-white/[0.07]">
-      <span className="text-2xl font-medium tabular-nums tracking-tight text-white/70">{timeStr}</span>
-      <p className="text-sm text-white/30 mt-0.5">{dateStr}</p>
+    <div className="flex flex-col items-end">
+      <span className="text-lg font-medium tabular-nums tracking-tight text-white/70">{timeStr}</span>
+      <span className="text-xs text-white/30 mt-0.5">{dateStr}</span>
     </div>
   );
 }
