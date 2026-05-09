@@ -45,49 +45,49 @@ export default function ProfileForm({ user, profile }) {
   }
 
   return (
-    <form onSubmit={handleSave} className="flex flex-col gap-6">
+    <form onSubmit={handleSave} className="flex flex-col gap-5">
 
       {/* Avatar */}
       <div className="flex flex-col items-center gap-3">
-        <button type="button" onClick={() => fileRef.current?.click()} className="relative">
+        <button type="button" onClick={() => fileRef.current?.click()} className="relative group">
           {avatarUrl ? (
             <Image
               src={avatarUrl}
               alt="Avatar"
-              width={96}
-              height={96}
-              className="rounded-full object-cover ring-2 ring-white/20"
+              width={88}
+              height={88}
+              className="rounded-2xl object-cover ring-1 ring-white/10 group-hover:ring-white/25 transition-all"
             />
           ) : (
-            <div className="flex h-24 w-24 items-center justify-center rounded-full bg-atmosphere-dusk text-3xl font-bold ring-2 ring-white/20">
+            <div className="flex h-[88px] w-[88px] items-center justify-center rounded-2xl bg-gradient-to-br from-atmosphere-day/30 to-atmosphere-dusk/30 text-2xl font-bold ring-1 ring-white/10 group-hover:ring-white/25 transition-all">
               {initials}
             </div>
           )}
-          <span className="absolute bottom-0 right-0 flex h-7 w-7 items-center justify-center rounded-full bg-white text-sm text-atmosphere-night shadow">
-            {uploading ? "…" : "✏️"}
+          <span className="absolute -bottom-1.5 -right-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-white text-xs text-atmosphere-night shadow ring-2 ring-atmosphere-night">
+            {uploading ? "…" : "✏"}
           </span>
         </button>
-        <p className="text-xs text-white/40">Click to change photo</p>
+        <p className="text-xs text-white/35">Tap to change photo</p>
         <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} />
       </div>
 
       {/* Display name */}
-      <div className="flex flex-col gap-2">
-        <label className="text-sm font-medium text-white/70">Display name</label>
+      <div className="flex flex-col gap-1.5">
+        <label className="text-xs font-medium text-white/50">Display name</label>
         <input
           value={displayName}
           onChange={(e) => setDisplayName(e.target.value)}
           maxLength={40}
           placeholder={user.email.split("@")[0]}
-          className="rounded-md bg-white/10 px-4 py-2.5 text-sm placeholder-white/30 outline-none focus:ring-2 focus:ring-white/30"
+          className="input text-sm"
         />
       </div>
 
       {/* Bio */}
-      <div className="flex flex-col gap-2">
-        <div className="flex justify-between">
-          <label className="text-sm font-medium text-white/70">Bio</label>
-          <span className="text-xs text-white/30">{bio.length}/160</span>
+      <div className="flex flex-col gap-1.5">
+        <div className="flex justify-between items-center">
+          <label className="text-xs font-medium text-white/50">Bio</label>
+          <span className="text-xs text-white/25">{bio.length}/160</span>
         </div>
         <textarea
           value={bio}
@@ -95,7 +95,7 @@ export default function ProfileForm({ user, profile }) {
           maxLength={160}
           rows={3}
           placeholder="Tell us a little about yourself…"
-          className="resize-none rounded-md bg-white/10 px-4 py-3 text-sm placeholder-white/30 outline-none focus:ring-2 focus:ring-white/30"
+          className="input resize-none text-sm"
         />
       </div>
 
@@ -104,7 +104,7 @@ export default function ProfileForm({ user, profile }) {
       <button
         type="submit"
         disabled={saving}
-        className="rounded-md bg-white py-2.5 text-sm font-medium text-atmosphere-night hover:opacity-90 disabled:opacity-50"
+        className="btn-primary py-2.5 text-sm disabled:opacity-50"
       >
         {saving ? "Saving…" : "Save changes"}
       </button>

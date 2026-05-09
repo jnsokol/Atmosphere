@@ -20,10 +20,11 @@ export default async function InsightsPage() {
 
   if (!rows || rows.length < MIN_ENTRIES) {
     return (
-      <section>
-        <h1 className="mb-2 text-2xl font-semibold">Insights</h1>
-        <p className="text-white/50">
-          Log at least {MIN_ENTRIES} entries to unlock your insights dashboard.
+      <section className="flex flex-col items-center justify-center py-24 text-center gap-4">
+        <span className="text-5xl">🔭</span>
+        <h1 className="text-xl font-bold">Not enough data yet</h1>
+        <p className="text-sm text-white/40 max-w-xs">
+          Log at least {MIN_ENTRIES} entries to unlock your personal insights.
         </p>
       </section>
     );
@@ -32,17 +33,17 @@ export default async function InsightsPage() {
   const { charts, insights } = computeInsights(rows);
 
   return (
-    <section className="flex flex-col gap-10">
+    <section className="flex flex-col gap-6">
       <div>
-        <h1 className="text-2xl font-semibold">Insights</h1>
-        <p className="mt-1 text-sm text-white/40">{rows.length} entries analysed</p>
+        <h1 className="text-2xl font-bold">Insights</h1>
+        <p className="mt-1 text-xs text-white/35">{rows.length} entries analysed</p>
       </div>
 
       {insights.length > 0 && (
-        <div className="flex flex-col gap-3">
-          <h2 className="text-xs font-semibold uppercase tracking-widest text-white/40">Generated insights</h2>
+        <div className="flex flex-col gap-2">
+          <p className="text-xs font-semibold uppercase tracking-widest text-white/25">Highlights</p>
           {insights.map((text, i) => (
-            <div key={i} className="rounded-xl bg-white/5 px-5 py-4 text-sm leading-relaxed text-white/80">
+            <div key={i} className="card px-5 py-4 text-sm leading-relaxed text-white/75">
               {text}
             </div>
           ))}
@@ -74,9 +75,9 @@ export default async function InsightsPage() {
 
 function ChartSection({ title, children }) {
   return (
-    <div className="flex flex-col gap-3">
-      <h2 className="text-xs font-semibold uppercase tracking-widest text-white/40">{title}</h2>
-      <div className="rounded-xl bg-white/5 p-4">{children}</div>
+    <div className="flex flex-col gap-2.5">
+      <p className="text-xs font-semibold uppercase tracking-widest text-white/25">{title}</p>
+      <div className="card px-4 py-4">{children}</div>
     </div>
   );
 }
