@@ -2,6 +2,17 @@
 
 import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from "recharts";
 
+function EnergyTooltip({ active, payload }) {
+  if (!active || !payload?.length) return null;
+  const { mood, energy } = payload[0].payload;
+  return (
+    <div style={{ background: "#1a1d2e", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, padding: "8px 12px", fontSize: 11 }}>
+      <p style={{ color: "#7cb9e8", fontWeight: 600, margin: 0 }}>Mood: {mood}</p>
+      <p style={{ color: "#9b6b9e", fontWeight: 600, margin: "4px 0 0" }}>Energy: {energy}</p>
+    </div>
+  );
+}
+
 export default function MoodVsEnergyChart({ data }) {
   return (
     <ResponsiveContainer width="100%" height={220}>
@@ -25,10 +36,7 @@ export default function MoodVsEnergyChart({ data }) {
         />
         <Tooltip
           cursor={{ strokeDasharray: "3 3" }}
-          contentStyle={{ background: "#1a1d2e", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8 }}
-          labelStyle={{ color: "rgba(255,255,255,0.5)", fontSize: 11 }}
-          itemStyle={{ color: "rgba(255,255,255,0.85)", fontSize: 11 }}
-          formatter={(val, name) => [val, name === "energy" ? "Energy" : "Mood"]}
+          content={<EnergyTooltip />}
         />
         <ReferenceLine stroke="rgba(255,255,255,0.06)" segment={[{ x: 1, y: 1 }, { x: 10, y: 10 }]} strokeDasharray="4 4" />
         <Scatter data={data} fill="#9b6b9e" fillOpacity={0.65} />

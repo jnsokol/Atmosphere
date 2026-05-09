@@ -27,7 +27,7 @@ export default function MoodVsTemperatureChart({ data }) {
           cursor={{ strokeDasharray: "3 3" }}
           contentStyle={{ background: "#1a1d2e", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8 }}
           labelStyle={{ color: "rgba(255,255,255,0.5)", fontSize: 11 }}
-          itemStyle={{ fontSize: 11 }}
+          itemStyle={{ fontSize: 11, fontWeight: 600 }}
           formatter={(val, name) => [val, name === "temp" ? "Temp (°C)" : "Mood"]}
         />
         <Scatter data={data} fill="#f4a261" fillOpacity={0.7} />

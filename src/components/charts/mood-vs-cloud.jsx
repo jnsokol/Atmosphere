@@ -25,7 +25,7 @@ export default function MoodVsCloudChart({ data }) {
         />
         <Tooltip
           contentStyle={{ background: "#1a1d2e", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8 }}
-          itemStyle={{ fontSize: 11 }}
+          itemStyle={{ fontSize: 11, fontWeight: 600 }}
           cursor={{ strokeDasharray: "3 3" }}
         />
         <Scatter data={data} fill="#9b6b9e" fillOpacity={0.7} />
