@@ -18,7 +18,7 @@ export default async function DashboardPage() {
   const all = entries ?? [];
   const recent = all.slice(0, 3);
   const streak = computeStreak(all);
-  const xp = computeXP(all);
+  const xp = computeXP(all, profile);
   const { current: lvl, next, progress } = getLevelInfo(xp);
   const avgMood = all.length ? (all.reduce((s, e) => s + e.mood, 0) / all.length).toFixed(1) : null;
 

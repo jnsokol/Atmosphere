@@ -16,7 +16,7 @@ export default async function ProfilePage() {
   ]);
 
   const all = entries ?? [];
-  const xp = computeXP(all);
+  const xp = computeXP(all, profile);
   const levelInfo = getLevelInfo(xp);
   const streak = computeStreak(all);
   const longestStreak = computeLongestStreak(all);

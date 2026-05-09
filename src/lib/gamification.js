@@ -13,34 +13,34 @@ export const LEVELS = [
 
 export const ACHIEVEMENTS = [
   // Entry milestones
-  { id: "first_entry",   emoji: "🌱", title: "First Step",      desc: "Log your very first entry" },
-  { id: "entries_5",     emoji: "✨", title: "Warming Up",      desc: "Log 5 entries" },
-  { id: "entries_10",    emoji: "📓", title: "Getting Started", desc: "Log 10 entries" },
-  { id: "entries_25",    emoji: "🌿", title: "Growing",         desc: "Log 25 entries" },
-  { id: "entries_50",    emoji: "⭐", title: "Dedicated",       desc: "Log 50 entries" },
-  { id: "entries_100",   emoji: "💯", title: "Century",         desc: "Log 100 entries" },
-  { id: "entries_200",   emoji: "🚀", title: "Committed",       desc: "Log 200 entries" },
-  { id: "entries_365",   emoji: "🌍", title: "Year Strong",     desc: "Log 365 entries" },
+  { id: "first_entry",   emoji: "🌱", title: "First Step",       desc: "Log your very first entry",              xp: 10  },
+  { id: "entries_5",     emoji: "✨", title: "Warming Up",       desc: "Log 5 entries",                          xp: 15  },
+  { id: "entries_10",    emoji: "📓", title: "Getting Started",  desc: "Log 10 entries",                         xp: 20  },
+  { id: "entries_25",    emoji: "🌿", title: "Growing",          desc: "Log 25 entries",                         xp: 30  },
+  { id: "entries_50",    emoji: "⭐", title: "Dedicated",        desc: "Log 50 entries",                         xp: 50  },
+  { id: "entries_100",   emoji: "💯", title: "Century",          desc: "Log 100 entries",                        xp: 75  },
+  { id: "entries_200",   emoji: "🚀", title: "Committed",        desc: "Log 200 entries",                        xp: 100 },
+  { id: "entries_365",   emoji: "🌍", title: "Year Strong",      desc: "Log 365 entries",                        xp: 200 },
   // Streak milestones
-  { id: "streak_3",      emoji: "🔄", title: "Three Peat",      desc: "3-day logging streak" },
-  { id: "streak_7",      emoji: "🔥", title: "Week Warrior",    desc: "7-day logging streak" },
-  { id: "streak_14",     emoji: "🌊", title: "Fortnight",       desc: "14-day logging streak" },
-  { id: "streak_30",     emoji: "🏆", title: "On Fire",         desc: "30-day logging streak" },
-  { id: "streak_100",    emoji: "🏅", title: "Centurion",       desc: "100-day logging streak" },
+  { id: "streak_3",      emoji: "🔄", title: "Three Peat",       desc: "3-day logging streak",                   xp: 15  },
+  { id: "streak_7",      emoji: "🔥", title: "Week Warrior",     desc: "7-day logging streak",                   xp: 25  },
+  { id: "streak_14",     emoji: "🌊", title: "Fortnight",        desc: "14-day logging streak",                  xp: 40  },
+  { id: "streak_30",     emoji: "🏆", title: "On Fire",          desc: "30-day logging streak",                  xp: 75  },
+  { id: "streak_100",    emoji: "🏅", title: "Centurion",        desc: "100-day logging streak",                 xp: 150 },
   // Quality milestones
-  { id: "reflection_10", emoji: "📝", title: "Storyteller",     desc: "10 entries with a reflection" },
-  { id: "reflection_25", emoji: "📖", title: "Journaller",      desc: "25 entries with a reflection" },
-  { id: "weather_10",    emoji: "🌤️", title: "Weather Watcher", desc: "10 entries with weather data" },
-  { id: "weather_25",    emoji: "🌦️", title: "Storm Tracker",   desc: "25 entries with weather data" },
+  { id: "reflection_10", emoji: "📝", title: "Storyteller",      desc: "10 entries with a reflection",           xp: 25  },
+  { id: "reflection_25", emoji: "📖", title: "Journaller",       desc: "25 entries with a reflection",           xp: 50  },
+  { id: "weather_10",    emoji: "🌤️", title: "Weather Watcher",  desc: "10 entries with weather data",           xp: 20  },
+  { id: "weather_25",    emoji: "🌦️", title: "Storm Tracker",    desc: "25 entries with weather data",           xp: 40  },
   // Special
-  { id: "perfect_entry",    emoji: "⚡", title: "Perfect Day",     desc: "Log mood 10 & energy 10 in one entry" },
-  { id: "resilient",        emoji: "💪", title: "Resilient",       desc: "Log an entry even with mood ≤ 3" },
-  { id: "full_week",        emoji: "📅", title: "Perfect Week",    desc: "Log every day of a full Mon–Sun week" },
+  { id: "perfect_entry",    emoji: "⚡", title: "Perfect Day",      desc: "Log mood 10 & energy 10 in one entry",  xp: 30  },
+  { id: "resilient",        emoji: "💪", title: "Resilient",        desc: "Log an entry even with mood ≤ 3",       xp: 20  },
+  { id: "full_week",        emoji: "📅", title: "Perfect Week",     desc: "Log every day of a full Mon–Sun week",  xp: 50  },
   // Profile
-  { id: "set_display_name", emoji: "🏷️", title: "Personalized",   desc: "Set a custom display name" },
-  { id: "set_bio",          emoji: "✍️", title: "About Me",        desc: "Write a bio on your profile" },
-  { id: "set_avatar",       emoji: "🖼️", title: "Face to the Name",desc: "Upload a profile picture" },
-  { id: "app_installed",    emoji: "📱", title: "All In",          desc: "Install Atmosphere on your device" },
+  { id: "set_display_name", emoji: "🏷️", title: "Personalized",    desc: "Set a custom display name",             xp: 10  },
+  { id: "set_bio",          emoji: "✍️", title: "About Me",         desc: "Write a bio on your profile",           xp: 10  },
+  { id: "set_avatar",       emoji: "🖼️", title: "Face to the Name", desc: "Upload a profile picture",              xp: 10  },
+  { id: "app_installed",    emoji: "📱", title: "All In",            desc: "Install Atmosphere on your device",     xp: 20  },
 ];
 
 /** Compute current streak (consecutive days with at least one entry, ending today or yesterday). */
@@ -81,10 +81,10 @@ export function computeLongestStreak(entries) {
   return longest;
 }
 
-export function computeXP(entries) {
+export function computeXP(entries, profile = null) {
   let xp = 0;
   for (const e of entries) {
-    xp += 10; // base per entry
+    xp += 10;
     if (e.weather_snapshots) xp += 5;
     if (e.reflection?.trim()) xp += 5;
   }
@@ -92,6 +92,11 @@ export function computeXP(entries) {
   const streak = computeStreak(entries);
   if (streak >= 30) xp += 50;
   else if (streak >= 7) xp += 20;
+  // Achievement bonuses
+  const unlocked = computeUnlockedAchievements(entries, profile);
+  for (const a of unlocked) {
+    if (a.unlocked) xp += a.xp;
+  }
   return xp;
 }
 

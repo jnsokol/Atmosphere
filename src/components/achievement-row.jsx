@@ -10,7 +10,10 @@ export function AchievementRow({ a }) {
         <p className={`text-sm font-semibold ${a.unlocked ? "text-white" : "text-white/50"}`}>{a.title}</p>
         <p className="text-xs text-white/30 mt-0.5">{a.desc}</p>
       </div>
-      {a.unlocked && <span className="shrink-0 text-green-400">✓</span>}
+      <div className="shrink-0 flex flex-col items-end gap-1">
+        {a.unlocked && <span className="text-green-400 text-sm">✓</span>}
+        <span className={`text-[10px] font-semibold ${a.unlocked ? "text-atmosphere-day/70" : "text-white/20"}`}>+{a.xp} XP</span>
+      </div>
     </div>
   );
 }

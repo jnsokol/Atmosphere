@@ -7,14 +7,13 @@ export default async function LevelsPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  const { data: entries } = await supabase
-    .from("mood_entries")
-    .select("id, mood, energy, reflection, created_at, weather_snapshots(entry_id)")
-    .eq("user_id", user.id)
-    .limit(500);
+  const [{ data: entries }, { data: profile }] = await Promise.all([
+    supabase.from("mood_entries").select("id, mood, energy, reflection, created_at, weather_snapshots(entry_id)").eq("user_id", user.id).limit(500),
+    supabase.from("profiles").select("*").eq("user_id", user.id).single(),
+  ]);
 
   const all = entries ?? [];
-  const xp = computeXP(all);
+  const xp = computeXP(all, profile);
   const { current } = getLevelInfo(xp);
 
   return (
