@@ -25,40 +25,39 @@ export default async function ProfilePage() {
   const initials = displayName.slice(0, 2).toUpperCase();
 
   return (
-    <section className="flex flex-col overflow-x-hidden">
+    <section className="flex flex-col">
 
-      {/* Banner — truly full viewport width */}
-      <div className="relative -mt-8 mb-16 w-screen left-1/2 -translate-x-1/2">
-        <div className="h-44 w-full bg-gradient-to-br from-atmosphere-day/40 via-atmosphere-dusk/25 to-[#0b0d18]" />
+      {/* Banner — full viewport width, pulled above content padding */}
+      <div
+        className="-mt-8 h-44 bg-gradient-to-br from-atmosphere-day/40 via-atmosphere-dusk/25 to-[#0b0d18]"
+        style={{ width: "100vw", marginLeft: "calc(50% - 50vw)" }}
+      />
 
-        {/* Avatar overlapping bottom of banner */}
-        <div className="absolute -bottom-12 left-[calc(50vw-50%+20px)]">
-          {profile?.avatar_url ? (
-            <Image
-              src={profile.avatar_url}
-              alt="Avatar"
-              width={88}
-              height={88}
-              className="rounded-3xl object-cover ring-[3px] ring-atmosphere-night shadow-2xl"
-            />
-          ) : (
-            <div className="flex h-[88px] w-[88px] items-center justify-center rounded-3xl bg-gradient-to-br from-atmosphere-day/50 to-atmosphere-dusk/50 text-3xl font-bold ring-[3px] ring-atmosphere-night shadow-2xl">
-              {initials}
-            </div>
-          )}
-        </div>
-
-        {/* Edit button — bottom-right of banner */}
+      {/* Avatar + edit row — pulled up to overlap banner */}
+      <div className="-mt-11 mb-4 flex items-end justify-between">
+        {profile?.avatar_url ? (
+          <Image
+            src={profile.avatar_url}
+            alt="Avatar"
+            width={88}
+            height={88}
+            className="rounded-3xl object-cover ring-[3px] ring-atmosphere-night shadow-2xl"
+          />
+        ) : (
+          <div className="flex h-[88px] w-[88px] items-center justify-center rounded-3xl bg-gradient-to-br from-atmosphere-day/50 to-atmosphere-dusk/50 text-3xl font-bold ring-[3px] ring-atmosphere-night shadow-2xl">
+            {initials}
+          </div>
+        )}
         <Link
           href="/profile/edit"
-          className="absolute bottom-3 right-[calc(50vw-50%)] flex items-center gap-1.5 rounded-full border border-white/10 bg-atmosphere-night/70 px-3 py-1.5 text-xs text-white/50 hover:border-white/25 hover:text-white transition-all backdrop-blur-md"
+          className="mb-1 flex items-center gap-1.5 rounded-full border border-white/10 bg-atmosphere-night/80 px-3 py-1.5 text-xs text-white/50 hover:border-white/25 hover:text-white transition-all backdrop-blur-md"
         >
           <Settings size={11} /> Edit profile
         </Link>
       </div>
 
       {/* Name + bio */}
-      <div className="mb-8">
+      <div className="mb-8 mt-2">
         <h1 className="text-2xl font-bold">{displayName}</h1>
         <p className="text-xs text-white/30 mt-0.5">{user.email}</p>
         {profile?.bio && (
