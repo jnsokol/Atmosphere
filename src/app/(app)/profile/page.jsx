@@ -29,13 +29,16 @@ export default async function ProfilePage() {
 
       {/* Banner — full viewport width, pulled above content padding */}
       <div
-        className="-mt-8 h-44"
-        style={{ background: "linear-gradient(to bottom, #0b0d18 0%, rgba(124,185,232,0.35) 45%, rgba(155,107,158,0.28) 75%, #0b0d18 100%)" }}
-        style={{ width: "100vw", marginLeft: "calc(50% - 50vw)" }}
+        className="-mt-8 h-32"
+        style={{
+          width: "100vw",
+          marginLeft: "calc(50% - 50vw)",
+          background: "linear-gradient(to bottom, #0b0d18 0%, rgba(124,185,232,0.4) 40%, rgba(155,107,158,0.3) 70%, #0b0d18 100%)",
+        }}
       />
 
       {/* Avatar + edit row — pulled up to overlap banner */}
-      <div className="-mt-11 mb-4 flex items-end justify-between">
+      <div className="-mt-12 mb-4 flex items-end justify-between">
         {profile?.avatar_url ? (
           <Image
             src={profile.avatar_url}
