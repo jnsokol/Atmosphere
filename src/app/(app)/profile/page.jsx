@@ -29,7 +29,8 @@ export default async function ProfilePage() {
 
       {/* Banner — full viewport width, pulled above content padding */}
       <div
-        className="-mt-8 h-44 bg-gradient-to-br from-atmosphere-day/40 via-atmosphere-dusk/25 to-[#0b0d18]"
+        className="-mt-8 h-44"
+        style={{ background: "linear-gradient(to bottom, #0b0d18 0%, rgba(124,185,232,0.35) 45%, rgba(155,107,158,0.28) 75%, #0b0d18 100%)" }}
         style={{ width: "100vw", marginLeft: "calc(50% - 50vw)" }}
       />
 
