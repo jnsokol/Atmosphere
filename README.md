@@ -1,4 +1,4 @@
-> **© 2025 Jan Sokołowski. All rights reserved.**
+> **© 2026 Jan Sokołowski. All rights reserved.**
 > Copying, redistribution, or use of this code in whole or in part without explicit written permission from the author is strictly prohibited.
 
 # Atmosphere
