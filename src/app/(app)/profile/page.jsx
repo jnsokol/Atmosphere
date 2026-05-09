@@ -25,14 +25,14 @@ export default async function ProfilePage() {
   const initials = displayName.slice(0, 2).toUpperCase();
 
   return (
-    <section className="flex flex-col">
+    <section className="flex flex-col overflow-x-hidden">
 
-      {/* Banner — bleeds to all edges including top header gap */}
-      <div className="relative -mx-5 -mt-8 mb-16">
+      {/* Banner — truly full viewport width */}
+      <div className="relative -mt-8 mb-16 w-screen left-1/2 -translate-x-1/2">
         <div className="h-44 w-full bg-gradient-to-br from-atmosphere-day/40 via-atmosphere-dusk/25 to-[#0b0d18]" />
 
         {/* Avatar overlapping bottom of banner */}
-        <div className="absolute -bottom-12 left-5">
+        <div className="absolute -bottom-12 left-[calc(50vw-50%+20px)]">
           {profile?.avatar_url ? (
             <Image
               src={profile.avatar_url}
@@ -51,7 +51,7 @@ export default async function ProfilePage() {
         {/* Edit button — bottom-right of banner */}
         <Link
           href="/profile/edit"
-          className="absolute bottom-3 right-0 flex items-center gap-1.5 rounded-full border border-white/10 bg-atmosphere-night/70 px-3 py-1.5 text-xs text-white/50 hover:border-white/25 hover:text-white transition-all backdrop-blur-md"
+          className="absolute bottom-3 right-[calc(50vw-50%)] flex items-center gap-1.5 rounded-full border border-white/10 bg-atmosphere-night/70 px-3 py-1.5 text-xs text-white/50 hover:border-white/25 hover:text-white transition-all backdrop-blur-md"
         >
           <Settings size={11} /> Edit profile
         </Link>
@@ -66,14 +66,16 @@ export default async function ProfilePage() {
         )}
       </div>
 
-      {/* Level — standalone bar */}
-      <div className="mb-10">
+      {/* Level — standalone bar, tap to see all levels */}
+      <Link href="/profile/levels" className="block mb-10 group">
         <div className="flex items-center justify-between mb-2">
-          <p className="text-sm font-semibold">
+          <p className="text-sm font-semibold group-hover:text-atmosphere-day transition-colors">
             <span className="text-white/35 font-normal text-xs mr-1.5">Lv.{levelInfo.current.level}</span>
             {levelInfo.current.title}
           </p>
-          <span className="text-xs text-white/25">{xp} XP{levelInfo.next ? ` / ${levelInfo.next.xpRequired}` : ""}</span>
+          <span className="text-xs text-white/25 group-hover:text-white/40 transition-colors">
+            {xp} XP{levelInfo.next ? ` / ${levelInfo.next.xpRequired}` : ""} →
+          </span>
         </div>
         <div className="h-2 w-full overflow-hidden rounded-full bg-white/[0.08]">
           <div
@@ -86,7 +88,7 @@ export default async function ProfilePage() {
             {levelInfo.next.xpRequired - xp} XP to {levelInfo.next.title}
           </p>
         )}
-      </div>
+      </Link>
 
       {/* Stats — big numbers, no boxes */}
       <div className="mb-10">

@@ -14,8 +14,10 @@ export default async function AppLayout({ children }) {
       {/* Top bar */}
       <header className="sticky top-0 z-40 flex items-center justify-between border-b border-white/[0.05] bg-atmosphere-night/75 px-5 py-3.5 backdrop-blur-2xl">
         <Link href="/dashboard" className="flex items-center gap-2.5">
-          {/* Gradient orb */}
-          <div className="h-6 w-6 rounded-full bg-gradient-to-br from-atmosphere-day via-atmosphere-dusk to-atmosphere-dusk opacity-90 shadow-glow-sm" />
+          {/* Ring logo with A */}
+          <div className="flex h-7 w-7 items-center justify-center rounded-full ring-2 ring-atmosphere-day/60">
+            <span className="font-display text-[13px] font-bold bg-gradient-to-br from-atmosphere-day to-atmosphere-dusk bg-clip-text text-transparent leading-none">A</span>
+          </div>
           <span className="font-display text-[17px] font-bold tracking-tight bg-gradient-to-r from-atmosphere-day to-atmosphere-dusk bg-clip-text text-transparent">
             Atmosphere
           </span>
