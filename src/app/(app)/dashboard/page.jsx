@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { computeStreak, computeXP, getLevelInfo, computeUnlockedAchievements } from "@/lib/gamification";
 import EntryCard from "@/components/entry-card";
 import Greeting from "@/components/greeting";
+import DateClock from "@/components/date-clock";
 import LocalDate from "@/components/local-date";
 import { AlertTriangle } from "lucide-react";
 
@@ -67,9 +68,6 @@ export default async function DashboardPage() {
   const nextAchievement = achievements.find((a) => !a.unlocked) ?? null;
   const unlockedCount = achievements.filter((a) => a.unlocked).length;
 
-  const avgLast7 = week.filter((d) => d.mood).length
-    ? (week.filter((d) => d.mood).reduce((s, d) => s + d.mood, 0) / week.filter((d) => d.mood).length).toFixed(1)
-    : null;
 
   return (
     <section className="flex flex-col gap-10">
@@ -78,6 +76,7 @@ export default async function DashboardPage() {
       <div className="pt-1">
         <Greeting />
         <h1 className="text-3xl font-bold mt-0.5">{displayName}</h1>
+        <DateClock />
       </div>
 
       {/* Streak at risk */}
