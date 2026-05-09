@@ -18,7 +18,7 @@ export default function DateClock() {
 
   return (
     <div className="flex flex-col items-end">
-      <span className="text-lg font-medium tabular-nums tracking-tight text-white/70">{timeStr}</span>
+      <span className="text-lg font-medium tabular-nums tracking-tight text-white/70 leading-none">{timeStr}</span>
       <span className="text-xs text-white/30 mt-0.5">{dateStr}</span>
     </div>
   );
