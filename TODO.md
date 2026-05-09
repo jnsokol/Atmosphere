@@ -47,10 +47,10 @@ Full details for each milestone are in [ROADMAP.md](ROADMAP.md).
 
 ## Milestone 5 — Correlation Engine & Dashboard (Week 5)
 
-- [ ] `/app/insights` page with 4 Recharts charts (scatter + bar)
-- [ ] Pearson correlation computed server-side via Supabase RPC
-- [ ] Rule-based Insights Generator (min sample size n ≥ 10)
-- [ ] Mood vs. cloud cover, pressure, weekday, and track valence
+- [x] `/insights` page with 4 Recharts charts (line, bar, 2x scatter)
+- [x] Pearson correlation computed server-side in lib/insights.js
+- [x] Rule-based Insights Generator (min sample size n ≥ 10)
+- [x] Mood vs. cloud cover, pressure, weekday, and over time (valence deferred to M4)
 
 ---
 
