@@ -133,10 +133,12 @@ export default async function ProfilePage() {
 
 function StatItem({ emoji, value, label }) {
   return (
-    <div className="flex flex-col gap-1.5">
-      <span className="text-xl">{emoji}</span>
-      <span className="text-2xl font-bold leading-none">{value}</span>
-      <span className="text-xs text-white/30">{label}</span>
+    <div className="flex items-center gap-3">
+      <span className="text-2xl">{emoji}</span>
+      <div className="flex flex-col gap-0.5">
+        <span className="text-2xl font-bold leading-none">{value}</span>
+        <span className="text-xs text-white/30">{label}</span>
+      </div>
     </div>
   );
 }
