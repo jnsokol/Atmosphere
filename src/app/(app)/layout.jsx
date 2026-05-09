@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { signOut } from "@/server/actions/auth";
 import BottomNav from "@/components/bottom-nav";
+import InstallPrompt from "@/components/install-prompt";
 
 export default async function AppLayout({ children }) {
   const supabase = await createClient();
@@ -37,6 +38,7 @@ export default async function AppLayout({ children }) {
       </main>
 
       <BottomNav />
+      <InstallPrompt />
     </div>
   );
 }
