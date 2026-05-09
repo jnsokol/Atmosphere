@@ -12,12 +12,12 @@ export default function SplashScreen() {
     }
 
     const t1 = setTimeout(() => setPhase("hold"),     50);   // trigger logo fade-in
-    const t2 = setTimeout(() => setPhase("logo-out"), 1800); // logo fades out, bg stays solid
-    const t3 = setTimeout(() => setPhase("bg-out"),   2400); // bg fades out
+    const t2 = setTimeout(() => setPhase("logo-out"), 1000); // logo fades out, bg stays solid
+    const t3 = setTimeout(() => setPhase("bg-out"),   1400); // bg fades out
     const t4 = setTimeout(() => {
       setPhase("done");
       sessionStorage.setItem("atmosphere_splashed", "1");
-    }, 3100);
+    }, 1900);
 
     return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); };
   }, []);
