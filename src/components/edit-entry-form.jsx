@@ -3,15 +3,29 @@
 import { useState } from "react";
 import { updateEntry } from "@/server/actions/save-entry";
 
-const MOOD_LABELS = ["", "Awful", "Bad", "Low", "Meh", "Okay", "Fine", "Good", "Great", "Amazing", "Perfect"];
+const MOOD_LABELS   = ["", "Awful", "Bad", "Low", "Meh", "Okay", "Fine", "Good", "Great", "Amazing", "Perfect"];
 const ENERGY_LABELS = ["", "Drained", "Tired", "Low", "Lazy", "Neutral", "Active", "Energised", "Pumped", "Vibrant", "On fire"];
 
+function getMoodColor(n) {
+  if (n >= 8) return { bg: "bg-green-400/20",      text: "text-green-300",      ring: "ring-green-400/40"       };
+  if (n >= 6) return { bg: "bg-atmosphere-day/20", text: "text-atmosphere-day", ring: "ring-atmosphere-day/40"  };
+  if (n >= 4) return { bg: "bg-yellow-400/20",     text: "text-yellow-300",     ring: "ring-yellow-400/40"      };
+  return             { bg: "bg-red-400/20",         text: "text-red-300",        ring: "ring-red-400/40"         };
+}
+
+function getEnergyColor(n) {
+  if (n >= 8) return { bg: "bg-atmosphere-day/20",  text: "text-atmosphere-day", ring: "ring-atmosphere-day/40"  };
+  if (n >= 6) return { bg: "bg-atmosphere-dusk/20", text: "text-purple-300",     ring: "ring-atmosphere-dusk/40" };
+  if (n >= 4) return { bg: "bg-yellow-400/20",      text: "text-yellow-300",     ring: "ring-yellow-400/40"      };
+  return             { bg: "bg-red-400/20",          text: "text-red-300",        ring: "ring-red-400/40"         };
+}
+
 export default function EditEntryForm({ entry }) {
-  const [mood, setMood] = useState(entry.mood);
-  const [energy, setEnergy] = useState(entry.energy);
+  const [mood, setMood]         = useState(entry.mood);
+  const [energy, setEnergy]     = useState(entry.energy);
   const [reflection, setReflection] = useState(entry.reflection ?? "");
-  const [status, setStatus] = useState(null);
-  const [pending, setPending] = useState(false);
+  const [status, setStatus]     = useState(null);
+  const [pending, setPending]   = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -24,44 +38,65 @@ export default function EditEntryForm({ entry }) {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-      <InlineSlider label="Mood" value={mood} onChange={setMood} labelMap={MOOD_LABELS} color="#7cb9e8" />
-      <InlineSlider label="Energy" value={energy} onChange={setEnergy} labelMap={ENERGY_LABELS} color="#9b6b9e" />
-      <textarea
-        value={reflection}
-        onChange={(e) => setReflection(e.target.value)}
-        maxLength={2000}
-        rows={3}
-        placeholder="Reflection (optional)"
-        className="input resize-none text-sm"
-      />
+      <NumberPicker label="Mood"   value={mood}   onChange={setMood}   labels={MOOD_LABELS}   colorFn={getMoodColor} />
+      <NumberPicker label="Energy" value={energy} onChange={setEnergy} labels={ENERGY_LABELS} colorFn={getEnergyColor} />
+
+      <div className="flex flex-col gap-1.5">
+        <div className="flex justify-between items-center">
+          <span className="text-xs font-semibold uppercase tracking-widest text-white/25">Reflection</span>
+          <span className="text-xs text-white/20">{reflection.length}/2000</span>
+        </div>
+        <textarea
+          value={reflection}
+          onChange={(e) => setReflection(e.target.value)}
+          maxLength={2000}
+          rows={3}
+          placeholder="Reflection (optional)"
+          className="input resize-none text-sm"
+        />
+      </div>
+
       {status?.error && <p className="text-sm text-red-400">{status.error}</p>}
-      {status?.ok && <p className="text-sm text-green-400">{status.ok}</p>}
-      <button
-        type="submit"
-        disabled={pending}
-        className="btn-primary py-2.5 text-sm disabled:opacity-50"
-      >
+      {status?.ok    && <p className="text-sm text-green-400">{status.ok}</p>}
+
+      <button type="submit" disabled={pending} className="btn-primary w-full py-2.5 text-sm disabled:opacity-50">
         {pending ? "Saving…" : "Save changes"}
       </button>
     </form>
   );
 }
 
-function InlineSlider({ label, value, onChange, labelMap, color }) {
+function NumberPicker({ label, value, onChange, labels, colorFn }) {
+  const c = colorFn(value);
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between">
-        <span className="text-xs text-white/50">{label}</span>
-        <span className="text-sm font-semibold" style={{ color }}>{value} · {labelMap[value]}</span>
+        <span className="text-xs font-semibold uppercase tracking-widest text-white/25">{label}</span>
+        <div className={`flex items-center gap-2 rounded-full px-3 py-1 ${c.bg}`}>
+          <span className={`text-lg font-bold ${c.text}`}>{value}</span>
+          <span className={`text-xs font-medium ${c.text} opacity-80`}>{labels[value]}</span>
+        </div>
       </div>
-      <input
-        type="range"
-        min={1}
-        max={10}
-        value={value}
-        onChange={(e) => onChange(Number(e.target.value))}
-        className="w-full"
-      />
+      <div className="grid grid-cols-5 gap-2">
+        {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => {
+          const active = n === value;
+          const nc = colorFn(n);
+          return (
+            <button
+              key={n}
+              type="button"
+              onClick={() => onChange(n)}
+              className={`flex h-11 w-full items-center justify-center rounded-2xl text-sm font-bold transition-all duration-150 active:scale-95 ${
+                active
+                  ? `${nc.bg} ${nc.text} ring-1 ${nc.ring} scale-105`
+                  : "bg-white/[0.04] text-white/25 hover:bg-white/[0.08] hover:text-white/50"
+              }`}
+            >
+              {n}
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }

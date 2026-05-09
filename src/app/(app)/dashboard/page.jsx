@@ -103,12 +103,12 @@ export default async function DashboardPage() {
 
       {/* Stats — no boxes, just numbers */}
       <div className="flex items-center justify-around">
-        <Stat value={streak} label="day streak" accent="text-orange-400" suffix={streak === 1 ? "" : ""} icon="🔥" />
-        <div className="h-10 w-px bg-white/[0.07]" />
+        <Stat value={streak} label="day streak" accent="text-orange-400" icon="🔥" />
+        <div className="h-12 w-px bg-white/[0.07]" />
         <Stat value={avgMood ?? "—"} label="avg mood" accent="text-atmosphere-day" icon="📈" />
-        <div className="h-10 w-px bg-white/[0.07]" />
+        <div className="h-12 w-px bg-white/[0.07]" />
         <Stat value={thisWeekCount} label="this week" accent="text-atmosphere-dusk" icon="📅" />
-        <div className="h-10 w-px bg-white/[0.07]" />
+        <div className="h-12 w-px bg-white/[0.07]" />
         <Stat value={all.length} label="total" accent="text-white/50" icon="📓" />
       </div>
 
@@ -201,10 +201,10 @@ export default async function DashboardPage() {
 
 function Stat({ value, label, accent, icon }) {
   return (
-    <div className="flex flex-col items-center gap-1">
-      <span className="text-lg">{icon}</span>
-      <span className={`text-2xl font-bold ${accent}`}>{value}</span>
-      <span className="text-[10px] text-white/25 text-center leading-tight">{label}</span>
+    <div className="flex flex-col items-center gap-1.5">
+      <span className="text-2xl">{icon}</span>
+      <span className={`text-3xl font-bold leading-none ${accent}`}>{value}</span>
+      <span className="text-[11px] text-white/30 text-center leading-tight">{label}</span>
     </div>
   );
 }

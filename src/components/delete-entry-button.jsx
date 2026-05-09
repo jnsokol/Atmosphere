@@ -15,7 +15,7 @@ export default function DeleteEntryButton({ id }) {
   return (
     <button
       onClick={handleDelete}
-      className="rounded-md border border-red-500/30 py-2 text-sm text-red-400 hover:bg-red-500/10"
+      className="w-full rounded-2xl border border-red-500/20 py-2.5 text-sm text-red-400 hover:bg-red-500/10 hover:border-red-500/40 transition-all"
     >
       Delete entry
     </button>
