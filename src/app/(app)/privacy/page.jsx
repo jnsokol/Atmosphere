@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import { signOut } from "@/server/actions/auth";
-import { deleteAccount } from "@/server/actions/account";
+import DeleteAccountButton from "@/components/delete-account-button";
 
 export default async function PrivacyPage() {
   const supabase = await createClient();
@@ -38,19 +37,7 @@ export default async function PrivacyPage() {
         >
           Export all my data (JSON)
         </a>
-        <form action={deleteAccount}>
-          <button
-            type="submit"
-            className="w-full rounded-md border border-red-500/30 px-4 py-2.5 text-sm text-red-400 hover:bg-red-500/10"
-            onClick={(e) => {
-              if (!confirm("This will permanently delete your account and all data. Are you sure?")) {
-                e.preventDefault();
-              }
-            }}
-          >
-            Delete my account and all data
-          </button>
-        </form>
+        <DeleteAccountButton />
       </div>
     </section>
   );
