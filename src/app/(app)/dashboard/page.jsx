@@ -75,7 +75,7 @@ export default async function DashboardPage() {
       {/* Greeting */}
       <div className="pt-1">
         <Greeting />
-        <h1 className="text-3xl font-bold mt-0.5">{displayName}</h1>
+        <h1 className="text-4xl font-bold mt-0.5">{displayName}</h1>
         <DateClock />
       </div>
 

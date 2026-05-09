@@ -48,5 +48,5 @@ function pick(now) {
 
 export default function Greeting() {
   const text = useMemo(() => pick(new Date()), []);
-  return <p className="text-sm text-white/35">{text},</p>;
+  return <p className="text-base text-white/35">{text},</p>;
 }
