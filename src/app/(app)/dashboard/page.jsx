@@ -90,7 +90,7 @@ export default async function DashboardPage() {
   const weekStart = week[0].dateStr;
   const thisWeekCount = all.filter((e) => e.created_at.slice(0, 10) >= weekStart).length;
 
-  const achievements = computeUnlockedAchievements(all);
+  const achievements = computeUnlockedAchievements(all, profile);
   const nextAchievement = achievements.find((a) => !a.unlocked) ?? null;
   const unlockedCount = achievements.filter((a) => a.unlocked).length;
 

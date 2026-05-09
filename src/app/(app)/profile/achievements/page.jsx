@@ -2,21 +2,20 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { computeUnlockedAchievements } from "@/lib/gamification";
 import { AchievementRow } from "@/app/(app)/profile/page";
+import InstallAchievement from "@/components/install-achievement";
 import { ArrowLeft } from "lucide-react";
 
 export default async function AchievementsPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  const { data: entries } = await supabase
-    .from("mood_entries")
-    .select("id, mood, energy, reflection, created_at, weather_snapshots(entry_id)")
-    .eq("user_id", user.id)
-    .order("created_at", { ascending: false })
-    .limit(500);
+  const [{ data: entries }, { data: profile }] = await Promise.all([
+    supabase.from("mood_entries").select("id, mood, energy, reflection, created_at, weather_snapshots(entry_id)").eq("user_id", user.id).order("created_at", { ascending: false }).limit(500),
+    supabase.from("profiles").select("*").eq("user_id", user.id).single(),
+  ]);
 
   const all = entries ?? [];
-  const achievements = computeUnlockedAchievements(all);
+  const achievements = computeUnlockedAchievements(all, profile);
   const unlockedCount = achievements.filter((a) => a.unlocked).length;
 
   const unlocked = achievements.filter((a) => a.unlocked);
@@ -47,7 +46,10 @@ export default async function AchievementsPage() {
             Unlocked · {unlocked.length}
           </p>
           <div className="flex flex-col gap-3">
-            {unlocked.map((a) => <AchievementRow key={a.id} a={a} />)}
+            {unlocked.map((a) => a.id === "app_installed"
+              ? <InstallAchievement key={a.id} serverUnlocked={a.unlocked} />
+              : <AchievementRow key={a.id} a={a} />
+            )}
           </div>
         </div>
       )}
@@ -64,7 +66,10 @@ export default async function AchievementsPage() {
             Locked · {locked.length}
           </p>
           <div className="flex flex-col gap-3">
-            {locked.map((a) => <AchievementRow key={a.id} a={a} />)}
+            {locked.map((a) => a.id === "app_installed"
+              ? <InstallAchievement key={a.id} serverUnlocked={a.unlocked} />
+              : <AchievementRow key={a.id} a={a} />
+            )}
           </div>
         </div>
       )}

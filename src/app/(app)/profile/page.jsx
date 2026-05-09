@@ -3,6 +3,7 @@ import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
 import { computeStreak, computeLongestStreak, computeXP, getLevelInfo, computeUnlockedAchievements } from "@/lib/gamification";
 import { Settings } from "lucide-react";
+import InstallAchievement from "@/components/install-achievement";
 
 export default async function ProfilePage() {
   const supabase = await createClient();
@@ -19,7 +20,7 @@ export default async function ProfilePage() {
   const streak = computeStreak(all);
   const longestStreak = computeLongestStreak(all);
   const avgMood = all.length ? (all.reduce((s, e) => s + e.mood, 0) / all.length).toFixed(1) : "—";
-  const achievements = computeUnlockedAchievements(all);
+  const achievements = computeUnlockedAchievements(all, profile);
   const unlockedCount = achievements.filter((a) => a.unlocked).length;
   const displayName = profile?.display_name || user.email.split("@")[0];
   const initials = displayName.slice(0, 2).toUpperCase();
@@ -107,9 +108,10 @@ export default async function ProfilePage() {
         </div>
 
         <div className="flex flex-col gap-3">
-          {achievements.slice(0, 4).map((a) => (
-            <AchievementRow key={a.id} a={a} />
-          ))}
+          {achievements.slice(0, 4).map((a) => a.id === "app_installed"
+            ? <InstallAchievement key={a.id} serverUnlocked={a.unlocked} />
+            : <AchievementRow key={a.id} a={a} />
+          )}
         </div>
 
         <Link

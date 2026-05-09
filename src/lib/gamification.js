@@ -33,9 +33,14 @@ export const ACHIEVEMENTS = [
   { id: "weather_10",    emoji: "🌤️", title: "Weather Watcher", desc: "10 entries with weather data" },
   { id: "weather_25",    emoji: "🌦️", title: "Storm Tracker",   desc: "25 entries with weather data" },
   // Special
-  { id: "perfect_entry", emoji: "⚡", title: "Perfect Day",     desc: "Log mood 10 & energy 10 in one entry" },
-  { id: "resilient",     emoji: "💪", title: "Resilient",       desc: "Log an entry even with mood ≤ 3" },
-  { id: "full_week",     emoji: "📅", title: "Perfect Week",    desc: "Log every day of a full Mon–Sun week" },
+  { id: "perfect_entry",    emoji: "⚡", title: "Perfect Day",     desc: "Log mood 10 & energy 10 in one entry" },
+  { id: "resilient",        emoji: "💪", title: "Resilient",       desc: "Log an entry even with mood ≤ 3" },
+  { id: "full_week",        emoji: "📅", title: "Perfect Week",    desc: "Log every day of a full Mon–Sun week" },
+  // Profile
+  { id: "set_display_name", emoji: "🏷️", title: "Personalized",   desc: "Set a custom display name" },
+  { id: "set_bio",          emoji: "✍️", title: "About Me",        desc: "Write a bio on your profile" },
+  { id: "set_avatar",       emoji: "🖼️", title: "Face to the Name",desc: "Upload a profile picture" },
+  { id: "app_installed",    emoji: "📱", title: "All In",          desc: "Install Atmosphere on your device" },
 ];
 
 /** Compute current streak (consecutive days with at least one entry, ending today or yesterday). */
@@ -124,7 +129,7 @@ function hasFullWeek(entries) {
   return false;
 }
 
-export function computeUnlockedAchievements(entries) {
+export function computeUnlockedAchievements(entries, profile = null) {
   const total = entries.length;
   const streak = computeStreak(entries);
   const longestStreak = computeLongestStreak(entries);
@@ -162,6 +167,12 @@ export function computeUnlockedAchievements(entries) {
   if (hasPerfect)           unlocked.add("perfect_entry");
   if (hasLowMood)           unlocked.add("resilient");
   if (hasFullWeek(entries)) unlocked.add("full_week");
+
+  // Profile
+  if (profile?.display_name?.trim())  unlocked.add("set_display_name");
+  if (profile?.bio?.trim())           unlocked.add("set_bio");
+  if (profile?.avatar_url?.trim())    unlocked.add("set_avatar");
+  // app_installed is checked client-side only
 
   return ACHIEVEMENTS.map((a) => ({ ...a, unlocked: unlocked.has(a.id) }));
 }
