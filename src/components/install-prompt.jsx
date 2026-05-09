@@ -21,7 +21,7 @@ const HINTS = {
   desktop:   { line1: "Install Atmosphere",   line2: "Click ⊕ in your address bar" },
 };
 
-const STORAGE_KEY = "atmosphere_install_dismissed";
+const STORAGE_KEY = "atmosphere_install_dismissed_v2";
 const SHOW_AGAIN_AFTER_DAYS = 14;
 
 export default function InstallPrompt() {
