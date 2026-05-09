@@ -10,10 +10,28 @@ export default async function DashboardPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  const [{ data: entries }, { data: profile }] = await Promise.all([
+  const [{ data: entries }, { data: profile }, { data: notebooks }] = await Promise.all([
     supabase.from("mood_entries").select("*, weather_snapshots(*)").eq("user_id", user.id).order("created_at", { ascending: false }).limit(200),
     supabase.from("profiles").select("*").eq("user_id", user.id).single(),
+    supabase.from("notebooks").select("id, title, color, created_at").eq("user_id", user.id).order("created_at", { ascending: false }).limit(3),
   ]);
+
+  // Latest entry across most recent notebooks
+  let lastJournalEntry = null;
+  let lastJournalNotebook = null;
+  if (notebooks?.length) {
+    const { data: latestEntry } = await supabase
+      .from("journal_entries")
+      .select("id, body, created_at, notebook_id")
+      .in("notebook_id", notebooks.map((n) => n.id))
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .single();
+    if (latestEntry) {
+      lastJournalEntry = latestEntry;
+      lastJournalNotebook = notebooks.find((n) => n.id === latestEntry.notebook_id) ?? null;
+    }
+  }
 
   const all = entries ?? [];
   const recent = all.slice(0, 3);
@@ -175,6 +193,26 @@ export default async function DashboardPage() {
 
       {/* Divider */}
       <div className="border-t border-white/[0.05]" />
+
+      {/* Last journal entry */}
+      {lastJournalEntry && lastJournalNotebook && (
+        <Link href={`/journal/${lastJournalNotebook.id}`} className="group flex flex-col gap-2">
+          <p className="text-[11px] font-semibold uppercase tracking-widest text-white/20">Last journal entry</p>
+          <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] px-4 py-3.5 flex gap-3.5 items-start hover:bg-white/[0.05] transition-colors">
+            <div className="mt-0.5 h-8 w-1.5 shrink-0 rounded-full" style={{ backgroundColor: lastJournalNotebook.color }} />
+            <div className="min-w-0 flex-1">
+              <p className="text-xs font-semibold text-white/50 mb-0.5">{lastJournalNotebook.title}</p>
+              <p className="text-sm text-white/80 line-clamp-2 leading-snug">
+                {lastJournalEntry.body || <span className="text-white/30 italic">No text</span>}
+              </p>
+              <p className="mt-1.5 text-[10px] text-white/25">
+                {new Date(lastJournalEntry.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}
+              </p>
+            </div>
+            <span className="text-white/20 group-hover:text-white/50 transition-colors text-sm mt-0.5">→</span>
+          </div>
+        </Link>
+      )}
 
       {/* Recent entries */}
       {recent.length > 0 ? (

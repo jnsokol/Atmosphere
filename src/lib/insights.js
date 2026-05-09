@@ -33,22 +33,25 @@ function buildMoodOverTime(rows) {
       date: new Date(r.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "short" }),
       mood: r.mood,
       energy: r.energy,
+      stress: r.stress ?? null,
     }));
 }
 
 const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 function buildMoodByWeekday(rows) {
-  const buckets = DAYS.map((d) => ({ day: d, moods: [], energies: [] }));
+  const buckets = DAYS.map((d) => ({ day: d, moods: [], energies: [], stresses: [] }));
   rows.forEach((r) => {
     const dow = new Date(r.created_at).getDay();
     buckets[dow].moods.push(r.mood);
     if (r.energy != null) buckets[dow].energies.push(r.energy);
+    if (r.stress != null) buckets[dow].stresses.push(r.stress);
   });
-  return buckets.map(({ day, moods, energies }) => ({
+  return buckets.map(({ day, moods, energies, stresses }) => ({
     day,
     avg:       moods.length    ? +(moods.reduce((a, b) => a + b, 0)    / moods.length).toFixed(2)    : null,
     avgEnergy: energies.length ? +(energies.reduce((a, b) => a + b, 0) / energies.length).toFixed(2) : null,
+    avgStress: stresses.length ? +(stresses.reduce((a, b) => a + b, 0) / stresses.length).toFixed(2) : null,
     n: moods.length,
   }));
 }
@@ -90,19 +93,21 @@ function getTimeSlot(hour) {
 }
 
 function buildMoodByTimeOfDay(rows) {
-  const buckets = Object.fromEntries(TIME_SLOTS.map((s) => [s, { moods: [], energies: [] }]));
+  const buckets = Object.fromEntries(TIME_SLOTS.map((s) => [s, { moods: [], energies: [], stresses: [] }]));
   rows.forEach((r) => {
     const hour = new Date(r.created_at).getHours();
     const slot = getTimeSlot(hour);
     buckets[slot].moods.push(r.mood);
     if (r.energy != null) buckets[slot].energies.push(r.energy);
+    if (r.stress != null) buckets[slot].stresses.push(r.stress);
   });
   return TIME_SLOTS.map((slot) => {
-    const { moods, energies } = buckets[slot];
+    const { moods, energies, stresses } = buckets[slot];
     return {
       slot,
       avg:       moods.length    ? +(moods.reduce((a, b) => a + b, 0)    / moods.length).toFixed(2)    : null,
       avgEnergy: energies.length ? +(energies.reduce((a, b) => a + b, 0) / energies.length).toFixed(2) : null,
+      avgStress: stresses.length ? +(stresses.reduce((a, b) => a + b, 0) / stresses.length).toFixed(2) : null,
       n: moods.length,
     };
   });

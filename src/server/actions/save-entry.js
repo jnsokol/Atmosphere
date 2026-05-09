@@ -8,6 +8,7 @@ import { fetchCurrentWeather } from "@/lib/weather";
 const SaveEntryInput = z.object({
   mood: z.number().int().min(1).max(10),
   energy: z.number().int().min(1).max(10),
+  stress: z.number().int().min(1).max(10).optional(),
   reflection: z.string().max(2000).optional(),
   latitude: z.number().min(-90).max(90).optional(),
   longitude: z.number().min(-180).max(180).optional(),

@@ -9,12 +9,12 @@ export async function createNotebook(formData) {
   const { data: { user } } = await supabase.auth.getUser();
 
   const name  = formData.get("name")?.toString().trim();
-  const emoji = formData.get("emoji")?.toString().trim() || "📓";
+  const color = formData.get("color")?.toString().trim() || "#7cb9e8";
   if (!name) return;
 
   const { data, error } = await supabase
     .from("notebooks")
-    .insert({ user_id: user.id, name, emoji })
+    .insert({ user_id: user.id, name, color })
     .select("id")
     .single();
 

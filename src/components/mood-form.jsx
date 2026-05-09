@@ -7,6 +7,7 @@ import { MapPin } from "lucide-react";
 
 const MOOD_LABELS   = ["", "Terrible", "Very bad", "Bad", "Low", "Neutral", "Okay", "Good", "Great", "Excellent", "Amazing"];
 const ENERGY_LABELS = ["", "Exhausted", "Drained", "Tired", "Low", "Moderate", "Alert", "Focused", "Energised", "Pumped", "On fire"];
+const STRESS_LABELS = ["", "None", "Minimal", "Light", "Low", "Moderate", "Noticeable", "High", "Very high", "Intense", "Overwhelming"];
 
 function getMoodColor(n) {
   if (n >= 8) return { bg: "bg-green-400/20",       text: "text-green-300",      ring: "ring-green-400/40",  glow: "shadow-green-400/20"  };
@@ -22,10 +23,18 @@ function getEnergyColor(n) {
   return              { bg: "bg-red-400/20",         text: "text-red-300",        ring: "ring-red-400/40",         glow: "shadow-red-400/20"         };
 }
 
+function getStressColor(n) {
+  if (n >= 8) return { bg: "bg-red-400/20",     text: "text-red-300",    ring: "ring-red-400/40",    glow: "shadow-red-400/20"    };
+  if (n >= 6) return { bg: "bg-orange-400/20",  text: "text-orange-300", ring: "ring-orange-400/40", glow: "shadow-orange-400/20" };
+  if (n >= 4) return { bg: "bg-yellow-400/20",  text: "text-yellow-300", ring: "ring-yellow-400/40", glow: "shadow-yellow-400/20" };
+  return              { bg: "bg-green-400/20",   text: "text-green-300",  ring: "ring-green-400/40",  glow: "shadow-green-400/20"  };
+}
+
 export default function MoodForm() {
   const router = useRouter();
   const [mood, setMood]             = useState(null);
   const [energy, setEnergy]         = useState(null);
+  const [stress, setStress]         = useState(null);
   const [reflection, setReflection] = useState("");
   const [error, setError]           = useState(null);
   const [pending, setPending]       = useState(false);
@@ -45,7 +54,7 @@ export default function MoodForm() {
     e.preventDefault();
     if (!mood || !energy) return;
     setPending(true); setError(null);
-    const result = await saveEntry({ mood, energy, reflection: reflection || undefined, latitude: location?.lat, longitude: location?.lon });
+    const result = await saveEntry({ mood, energy, stress: stress || undefined, reflection: reflection || undefined, latitude: location?.lat, longitude: location?.lon });
     setPending(false);
     if (result.error) setError(result.error);
     else router.push("/dashboard");
@@ -72,6 +81,16 @@ export default function MoodForm() {
         onChange={setEnergy}
         labels={ENERGY_LABELS}
         colorFn={getEnergyColor}
+      />
+
+      {/* Stress picker */}
+      <PickerSection
+        label="Stress"
+        value={stress}
+        onChange={setStress}
+        labels={STRESS_LABELS}
+        colorFn={getStressColor}
+        optional
       />
 
       {/* Reflection */}
@@ -113,7 +132,7 @@ export default function MoodForm() {
   );
 }
 
-function PickerSection({ label, value, onChange, labels, colorFn }) {
+function PickerSection({ label, value, onChange, labels, colorFn, optional }) {
   const selected = value ? colorFn(value) : null;
 
   return (
@@ -127,7 +146,7 @@ function PickerSection({ label, value, onChange, labels, colorFn }) {
             <span className={`text-xs font-medium ${selected.text} opacity-80`}>{labels[value]}</span>
           </div>
         ) : (
-          <span className="text-xs text-white/20">Tap a number</span>
+          <span className="text-xs text-white/20">{optional ? "Optional — tap a number" : "Tap a number"}</span>
         )}
       </div>
 

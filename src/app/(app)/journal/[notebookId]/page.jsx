@@ -10,7 +10,7 @@ export default async function NotebookPage({ params }) {
   const { data: { user } } = await supabase.auth.getUser();
 
   const [{ data: notebook }, { data: entries }] = await Promise.all([
-    supabase.from("notebooks").select("*").eq("id", notebookId).eq("user_id", user.id).single(),
+    supabase.from("notebooks").select("id, name, color").eq("id", notebookId).eq("user_id", user.id).single(),
     supabase.from("journal_entries").select("id, title, body, location_name, created_at").eq("notebook_id", notebookId).order("created_at", { ascending: false }),
   ]);
 
@@ -25,7 +25,7 @@ export default async function NotebookPage({ params }) {
         </Link>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="text-4xl">{notebook.emoji}</span>
+            <div className="h-3 w-3 rounded-full shrink-0" style={{ background: notebook.color }} />
             <div>
               <h1 className="text-2xl font-bold">{notebook.name}</h1>
               <p className="text-xs text-white/35 mt-0.5">{(entries ?? []).length} entries</p>

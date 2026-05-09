@@ -16,8 +16,9 @@ export default function MoodOverTimeChart({ data }) {
           labelStyle={{ color: "rgba(255,255,255,0.5)", fontSize: 11 }}
           itemStyle={{ fontSize: 11, fontWeight: 600 }}
         />
-        <Line type="monotone" dataKey="mood" stroke="#7cb9e8" strokeWidth={2} dot={false} name="Mood" />
+        <Line type="monotone" dataKey="mood"   stroke="#7cb9e8" strokeWidth={2} dot={false} name="Mood"   />
         <Line type="monotone" dataKey="energy" stroke="#9b6b9e" strokeWidth={2} dot={false} name="Energy" />
+        <Line type="monotone" dataKey="stress" stroke="#f87171" strokeWidth={2} dot={false} name="Stress" connectNulls={false} />
       </LineChart>
     </ResponsiveContainer>
   );

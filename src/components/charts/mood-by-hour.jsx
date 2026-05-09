@@ -16,8 +16,9 @@ export default function MoodByHourChart({ data }) {
             formatter={(val, name, props) => [`${val ?? "—"} (n=${props.payload.n})`, name]}
             cursor={{ fill: "rgba(255,255,255,0.04)" }}
           />
-          <Bar dataKey="avg"       name="Mood"   fill="#7cb9e8" fillOpacity={0.85} radius={[6, 6, 0, 0]} maxBarSize={24} />
-          <Bar dataKey="avgEnergy" name="Energy" fill="#9b6b9e" fillOpacity={0.85} radius={[6, 6, 0, 0]} maxBarSize={24} />
+          <Bar dataKey="avg"       name="Mood"   fill="#7cb9e8" fillOpacity={0.85} radius={[6, 6, 0, 0]} maxBarSize={18} />
+          <Bar dataKey="avgEnergy" name="Energy" fill="#9b6b9e" fillOpacity={0.85} radius={[6, 6, 0, 0]} maxBarSize={18} />
+          <Bar dataKey="avgStress" name="Stress" fill="#f87171" fillOpacity={0.85} radius={[6, 6, 0, 0]} maxBarSize={18} />
         </BarChart>
     </ResponsiveContainer>
   );
