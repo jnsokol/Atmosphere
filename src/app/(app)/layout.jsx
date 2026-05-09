@@ -13,7 +13,7 @@ export default async function AppLayout({ children }) {
   return (
     <div className="flex min-h-dvh flex-col">
       {/* Top bar */}
-      <header className="sticky top-0 z-40 flex items-center justify-between border-b border-white/[0.05] bg-atmosphere-night/75 px-5 py-3.5 backdrop-blur-2xl">
+      <header className="fixed top-0 left-0 right-0 z-40 flex items-center justify-between border-b border-white/[0.05] bg-atmosphere-night/75 px-5 py-3.5 backdrop-blur-2xl">
         <Link href="/dashboard" className="flex items-center gap-2.5">
           {/* Gradient orb */}
           <div className="h-6 w-6 rounded-full bg-gradient-to-br from-atmosphere-day via-atmosphere-dusk to-atmosphere-dusk opacity-90 shadow-glow-sm" />
@@ -33,7 +33,7 @@ export default async function AppLayout({ children }) {
       </header>
 
       {/* Page content */}
-      <main className="mx-auto w-full max-w-2xl flex-1 px-5 py-8 pb-28 animate-fade-in">
+      <main className="mx-auto w-full max-w-2xl flex-1 px-5 py-8 pb-28 pt-24 animate-fade-in">
         {children}
       </main>
 

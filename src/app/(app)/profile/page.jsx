@@ -43,9 +43,9 @@ export default async function ProfilePage() {
               {initials}
             </div>
           )}
-          <div>
-            <h1 className="text-2xl font-extrabold">{displayName}</h1>
-            <p className="text-xs text-white/30 mt-0.5">{user.email}</p>
+          <div className="min-w-0">
+            <h1 className="text-2xl font-extrabold truncate">{displayName}</h1>
+            <p className="text-xs text-white/30 mt-0.5 truncate">{user.email}</p>
             {profile?.bio && (
               <p className="mt-1.5 text-sm text-white/55 leading-relaxed max-w-[180px]">{profile.bio}</p>
             )}
