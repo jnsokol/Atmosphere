@@ -93,12 +93,12 @@ export default async function ProfilePage() {
       <div className="mb-10">
         <p className="text-[11px] font-semibold uppercase tracking-widest text-white/20 mb-5">Stats</p>
         <div className="grid grid-cols-3 gap-y-7">
-          <StatItem value={all.length}          label="total entries" />
-          <StatItem value={avgMood}             label="avg mood" />
-          <StatItem value={`${streak}d`}        label="streak" />
-          <StatItem value={`${longestStreak}d`} label="longest streak" />
-          <StatItem value={all.filter((e) => e.weather_snapshots).length} label="with weather" />
-          <StatItem value={`${unlockedCount}/${achievements.length}`} label="achievements" />
+          <StatItem emoji="📓" value={all.length}          label="total entries" />
+          <StatItem emoji="📈" value={avgMood}             label="avg mood" />
+          <StatItem emoji="🔥" value={`${streak}d`}        label="streak" />
+          <StatItem emoji="🏅" value={`${longestStreak}d`} label="longest streak" />
+          <StatItem emoji="🌤️" value={all.filter((e) => e.weather_snapshots).length} label="with weather" />
+          <StatItem emoji="⭐" value={`${unlockedCount}/${achievements.length}`} label="achievements" />
         </div>
       </div>
 
@@ -131,10 +131,11 @@ export default async function ProfilePage() {
   );
 }
 
-function StatItem({ value, label }) {
+function StatItem({ emoji, value, label }) {
   return (
-    <div className="flex flex-col gap-1">
-      <span className="text-2xl font-bold">{value}</span>
+    <div className="flex flex-col gap-1.5">
+      <span className="text-xl">{emoji}</span>
+      <span className="text-2xl font-bold leading-none">{value}</span>
       <span className="text-xs text-white/30">{label}</span>
     </div>
   );
