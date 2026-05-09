@@ -6,7 +6,12 @@ import {
 
 export default function MoodOverTimeChart({ data }) {
   return (
-    <ResponsiveContainer width="100%" height={220}>
+    <div>
+      <div className="flex gap-4 mb-2 pl-1">
+        <span className="text-xs font-bold" style={{ color: "#7cb9e8" }}>Mood</span>
+        <span className="text-xs font-bold" style={{ color: "#9b6b9e" }}>Energy</span>
+      </div>
+    <ResponsiveContainer width="100%" height={200}>
       <LineChart data={data} margin={{ top: 4, right: 8, bottom: 4, left: -20 }}>
         <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
         <XAxis dataKey="date" tick={{ fill: "rgba(255,255,255,0.35)", fontSize: 11 }} tickLine={false} />
@@ -20,5 +25,6 @@ export default function MoodOverTimeChart({ data }) {
         <Line type="monotone" dataKey="energy" stroke="#9b6b9e" strokeWidth={2} dot={false} name="Energy" />
       </LineChart>
     </ResponsiveContainer>
+    </div>
   );
 }
