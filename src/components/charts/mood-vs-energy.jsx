@@ -26,7 +26,8 @@ export default function MoodVsEnergyChart({ data }) {
         <Tooltip
           cursor={{ strokeDasharray: "3 3" }}
           contentStyle={{ background: "#1a1d2e", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8 }}
-          itemStyle={{ fontSize: 11 }}
+          labelStyle={{ color: "rgba(255,255,255,0.5)", fontSize: 11 }}
+          itemStyle={{ color: "rgba(255,255,255,0.85)", fontSize: 11 }}
           formatter={(val, name) => [val, name === "energy" ? "Energy" : "Mood"]}
         />
         <ReferenceLine stroke="rgba(255,255,255,0.06)" segment={[{ x: 1, y: 1 }, { x: 10, y: 10 }]} strokeDasharray="4 4" />
