@@ -3,11 +3,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { LayoutDashboard, PenLine, Clock, BarChart2, User } from "lucide-react";
+import { LayoutDashboard, PenLine, Clock, BarChart2, User, BookOpen } from "lucide-react";
 
 const ITEMS = [
   { href: "/dashboard", Icon: LayoutDashboard, label: "Home"     },
   { href: "/log",       Icon: PenLine,         label: "Log"      },
+  { href: "/journal",   Icon: BookOpen,        label: "Journal"  },
   { href: "/history",   Icon: Clock,           label: "History"  },
   { href: "/insights",  Icon: BarChart2,       label: "Insights" },
   { href: "/profile",   Icon: User,            label: "Profile"  },
@@ -33,7 +34,7 @@ export default function BottomNav() {
               key={href}
               href={href}
               onClick={() => handleClick(href)}
-              className={`relative flex flex-col items-center gap-1 px-4 py-2 transition-colors ${
+              className={`relative flex flex-col items-center gap-1 px-2 py-2 transition-colors ${
                 active ? "text-white" : "text-white/30 hover:text-white/60"
               }`}
             >
@@ -46,7 +47,7 @@ export default function BottomNav() {
               >
                 <Icon size={20} strokeWidth={active ? 2 : 1.5} />
               </span>
-              <span className={`text-[10px] font-medium ${active ? "text-atmosphere-day" : ""}`}>
+              <span className={`text-[9px] font-medium ${active ? "text-atmosphere-day" : ""}`}>
                 {label}
               </span>
             </Link>
