@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { computeStreak, computeXP, getLevelInfo, computeUnlockedAchievements } from "@/lib/gamification";
 import EntryCard from "@/components/entry-card";
 import Greeting from "@/components/greeting";
+import LocalDate from "@/components/local-date";
 import { AlertTriangle } from "lucide-react";
 
 
@@ -211,7 +212,7 @@ export default async function DashboardPage() {
                     {lastJournalEntry.body || <span className="italic">No text</span>}
                   </p>
                   <p className="mt-1.5 text-[10px] text-white/25">
-                    {new Date(lastJournalEntry.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}
+                    <LocalDate isoString={lastJournalEntry.created_at} options={{ day: "numeric", month: "short", year: "numeric" }} />
                   </p>
                 </>
               ) : (

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import LocalDate from "@/components/local-date";
 import { deleteEntry, updateEntry } from "@/server/actions/journal";
 import JournalEntryForm from "@/components/journal-entry-form";
 import { ArrowLeft, MapPin, Trash2 } from "lucide-react";
@@ -17,9 +18,6 @@ export default async function EntryPage({ params }) {
 
   if (!notebook || !entry) notFound();
 
-  const date = new Date(entry.created_at).toLocaleDateString("en-GB", {
-    weekday: "long", day: "numeric", month: "long", year: "numeric",
-  });
 
   return (
     <section className="flex flex-col gap-6">
@@ -30,7 +28,9 @@ export default async function EntryPage({ params }) {
         </Link>
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <p className="text-xs text-white/30">{date}</p>
+            <p className="text-xs text-white/30">
+              <LocalDate isoString={entry.created_at} options={{ weekday: "long", day: "numeric", month: "long", year: "numeric" }} />
+            </p>
             {entry.location_name && (
               <div className="flex items-center gap-1 mt-1">
                 <MapPin size={11} className="text-white/25 shrink-0" />

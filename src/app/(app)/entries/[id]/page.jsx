@@ -4,6 +4,7 @@ import Link from "next/link";
 import EditEntryForm from "@/components/edit-entry-form";
 import DeleteEntryButton from "@/components/delete-entry-button";
 import WeatherChip from "@/components/weather-chip";
+import LocalDate from "@/components/local-date";
 import { ArrowLeft } from "lucide-react";
 
 export default async function EntryDetailPage({ params }) {
@@ -17,9 +18,6 @@ export default async function EntryDetailPage({ params }) {
 
   if (error || !entry) notFound();
 
-  const date = new Date(entry.created_at);
-  const dateStr = date.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
-  const timeStr = date.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
 
   return (
     <section className="flex flex-col gap-6">
@@ -27,7 +25,9 @@ export default async function EntryDetailPage({ params }) {
         <ArrowLeft size={14} /> History
       </Link>
 
-      <p className="text-sm text-white/40">{dateStr} · {timeStr}</p>
+      <p className="text-sm text-white/40">
+        <LocalDate isoString={entry.created_at} options={{ weekday: "long", day: "numeric", month: "long", year: "numeric" }} showTime />
+      </p>
 
       {/* Scores */}
       <div className="card flex gap-8 px-6 py-5">

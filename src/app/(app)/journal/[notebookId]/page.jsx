@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { deleteNotebook } from "@/server/actions/journal";
 import { ArrowLeft, Plus, MapPin, Trash2 } from "lucide-react";
+import LocalDate from "@/components/local-date";
 import { notFound } from "next/navigation";
 
 export default async function NotebookPage({ params }) {
@@ -66,7 +67,7 @@ export default async function NotebookPage({ params }) {
                   {e.title || <span className="text-white/30 font-normal italic">Untitled</span>}
                 </p>
                 <span className="shrink-0 text-[10px] text-white/25">
-                  {new Date(e.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}
+                  <LocalDate isoString={e.created_at} options={{ day: "numeric", month: "short" }} />
                 </span>
               </div>
               {e.body && <p className="text-xs text-white/40 mt-1.5 line-clamp-2 leading-relaxed">{e.body}</p>}
