@@ -25,82 +25,129 @@ export default async function ProfilePage() {
   const initials = displayName.slice(0, 2).toUpperCase();
 
   return (
-    <section className="flex flex-col gap-6">
+    <section className="flex flex-col">
 
-      {/* Hero */}
-      <div className="card px-6 py-6">
-        <div className="flex items-start justify-between mb-5">
-          <div className="flex items-center gap-4">
-            {profile?.avatar_url ? (
-              <Image src={profile.avatar_url} alt="Avatar" width={72} height={72} className="rounded-2xl object-cover ring-1 ring-white/10" />
-            ) : (
-              <div className="flex h-[72px] w-[72px] items-center justify-center rounded-2xl bg-gradient-to-br from-atmosphere-day/30 to-atmosphere-dusk/30 text-2xl font-bold ring-1 ring-white/10">
-                {initials}
-              </div>
-            )}
-            <div>
-              <h1 className="text-xl font-bold">{displayName}</h1>
-              <p className="text-xs text-white/35">{user.email}</p>
-              {profile?.bio && <p className="mt-1.5 text-sm text-white/60 max-w-[200px]">{profile.bio}</p>}
+      {/* Banner + avatar */}
+      <div className="relative -mx-5 mb-16">
+        {/* Gradient banner */}
+        <div className="h-32 w-full bg-gradient-to-br from-atmosphere-day/30 via-atmosphere-dusk/20 to-transparent" />
+
+        {/* Avatar — overlaps banner */}
+        <div className="absolute -bottom-12 left-5 flex items-end gap-4">
+          {profile?.avatar_url ? (
+            <Image
+              src={profile.avatar_url}
+              alt="Avatar"
+              width={88}
+              height={88}
+              className="rounded-3xl object-cover ring-2 ring-atmosphere-night shadow-xl"
+            />
+          ) : (
+            <div className="flex h-[88px] w-[88px] items-center justify-center rounded-3xl bg-gradient-to-br from-atmosphere-day/40 to-atmosphere-dusk/40 text-3xl font-bold ring-2 ring-atmosphere-night shadow-xl">
+              {initials}
             </div>
-          </div>
-          <Link href="/profile/edit" className="flex items-center gap-1.5 rounded-xl border border-white/10 px-3 py-2 text-xs text-white/50 hover:border-white/20 hover:text-white transition-all">
-            <Settings size={12} /> Edit
-          </Link>
+          )}
         </div>
 
-        {/* Level bar */}
-        <div>
-          <div className="mb-2 flex items-center justify-between">
-            <span className="text-xs font-medium text-white/60">Lv.{levelInfo.current.level} · {levelInfo.current.title}</span>
-            <span className="text-xs text-white/25">{xp} XP</span>
-          </div>
-          <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/10">
-            <div className="h-full rounded-full bg-gradient-to-r from-atmosphere-day to-atmosphere-dusk" style={{ width: `${levelInfo.progress}%` }} />
-          </div>
-          {levelInfo.next && <p className="mt-1.5 text-xs text-white/25">{levelInfo.next.xpRequired - xp} XP to Level {levelInfo.next.level}</p>}
+        {/* Edit button top-right */}
+        <Link
+          href="/profile/edit"
+          className="absolute bottom-3 right-0 flex items-center gap-1.5 rounded-full border border-white/10 bg-atmosphere-night/80 px-3 py-1.5 text-xs text-white/50 hover:border-white/25 hover:text-white transition-all backdrop-blur-sm"
+        >
+          <Settings size={11} /> Edit profile
+        </Link>
+      </div>
+
+      {/* Name + bio */}
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold">{displayName}</h1>
+        <p className="text-xs text-white/30 mt-0.5">{user.email}</p>
+        {profile?.bio && (
+          <p className="mt-2 text-sm text-white/55 leading-relaxed max-w-sm">{profile.bio}</p>
+        )}
+      </div>
+
+      {/* Level — standalone bar */}
+      <div className="mb-10">
+        <div className="flex items-center justify-between mb-2">
+          <p className="text-sm font-semibold">
+            <span className="text-white/35 font-normal text-xs mr-1.5">Lv.{levelInfo.current.level}</span>
+            {levelInfo.current.title}
+          </p>
+          <span className="text-xs text-white/25">{xp} XP{levelInfo.next ? ` / ${levelInfo.next.xpRequired}` : ""}</span>
+        </div>
+        <div className="h-2 w-full overflow-hidden rounded-full bg-white/[0.08]">
+          <div
+            className="h-full rounded-full bg-gradient-to-r from-atmosphere-day to-atmosphere-dusk transition-all duration-500"
+            style={{ width: `${levelInfo.progress}%` }}
+          />
+        </div>
+        {levelInfo.next && (
+          <p className="mt-1.5 text-xs text-white/20">
+            {levelInfo.next.xpRequired - xp} XP to {levelInfo.next.title}
+          </p>
+        )}
+      </div>
+
+      {/* Stats — big numbers, no boxes */}
+      <div className="mb-10">
+        <p className="text-[11px] font-semibold uppercase tracking-widest text-white/20 mb-5">Stats</p>
+        <div className="grid grid-cols-3 gap-y-7">
+          <StatItem value={all.length}          label="total entries" />
+          <StatItem value={avgMood}             label="avg mood" />
+          <StatItem value={`${streak}d`}        label="streak" />
+          <StatItem value={`${longestStreak}d`} label="longest streak" />
+          <StatItem value={all.filter((e) => e.weather_snapshots).length} label="with weather" />
+          <StatItem value={`${unlockedCount}/${achievements.length}`} label="achievements" />
         </div>
       </div>
 
-      {/* Stats */}
-      <div>
-        <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-white/25">Stats</p>
-        <div className="grid grid-cols-2 gap-2.5">
-          {[
-            ["Total entries", all.length],
-            ["Avg mood", avgMood],
-            ["Current streak", `${streak} days`],
-            ["Longest streak", `${longestStreak} days`],
-            ["With weather", all.filter((e) => e.weather_snapshots).length],
-            ["Achievements", `${unlockedCount} / ${achievements.length}`],
-          ].map(([label, value]) => (
-            <div key={label} className="card px-4 py-3">
-              <p className="text-xs text-white/35">{label}</p>
-              <p className="mt-0.5 text-lg font-bold">{value}</p>
-            </div>
-          ))}
-        </div>
-      </div>
+      {/* Divider */}
+      <div className="border-t border-white/[0.05] mb-8" />
 
       {/* Achievements */}
       <div>
-        <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-white/25">Achievements</p>
-        <div className="flex flex-wrap gap-3">
+        <div className="flex items-center justify-between mb-5">
+          <p className="text-[11px] font-semibold uppercase tracking-widest text-white/20">Achievements</p>
+          <span className="text-xs text-white/25">{unlockedCount} / {achievements.length}</span>
+        </div>
+
+        <div className="flex flex-col gap-3">
           {achievements.map((a) => (
-            <div key={a.id} className="group relative flex flex-col items-center">
-              <div className={`flex h-14 w-14 items-center justify-center rounded-2xl text-2xl transition-all group-hover:scale-110 ${
-                a.unlocked ? "bg-white/10 ring-1 ring-white/20 shadow-glow-sm" : "bg-white/[0.03] opacity-30 grayscale"
+            <div
+              key={a.id}
+              className={`flex items-center gap-4 transition-opacity ${a.unlocked ? "" : "opacity-35"}`}
+            >
+              <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-2xl ${
+                a.unlocked
+                  ? "bg-white/10 ring-1 ring-white/15"
+                  : "bg-white/[0.03] grayscale"
               }`}>
                 {a.emoji}
               </div>
-              <div className="pointer-events-none absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-36 rounded-xl border border-white/10 bg-[#0b0d18] px-3 py-2 text-center opacity-0 shadow-xl transition-opacity group-hover:opacity-100 z-10">
-                <p className="text-xs font-semibold">{a.title}</p>
-                <p className="mt-0.5 text-xs text-white/40">{a.desc}</p>
+              <div className="min-w-0 flex-1">
+                <p className={`text-sm font-semibold ${a.unlocked ? "text-white" : "text-white/50"}`}>
+                  {a.title}
+                </p>
+                <p className="text-xs text-white/30 mt-0.5">{a.desc}</p>
               </div>
+              {a.unlocked && (
+                <span className="shrink-0 text-green-400 text-base">✓</span>
+              )}
             </div>
           ))}
         </div>
       </div>
+
     </section>
+  );
+}
+
+function StatItem({ value, label }) {
+  return (
+    <div className="flex flex-col gap-1">
+      <span className="text-2xl font-bold">{value}</span>
+      <span className="text-xs text-white/30">{label}</span>
+    </div>
   );
 }
