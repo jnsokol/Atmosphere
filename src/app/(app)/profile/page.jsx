@@ -1,9 +1,10 @@
+import Link from "next/link";
+import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
 import {
   computeStreak, computeLongestStreak, computeXP,
   getLevelInfo, computeUnlockedAchievements,
 } from "@/lib/gamification";
-import ProfileForm from "@/components/profile-form";
 
 export default async function ProfilePage() {
   const supabase = await createClient();
@@ -30,11 +31,42 @@ export default async function ProfilePage() {
   const achievements = computeUnlockedAchievements(all);
   const unlockedCount = achievements.filter((a) => a.unlocked).length;
 
+  const displayName = profile?.display_name || user.email.split("@")[0];
+  const initials = displayName.slice(0, 2).toUpperCase();
+
   return (
     <section className="flex max-w-lg flex-col gap-8">
-      <h1 className="text-2xl font-semibold">Profile</h1>
 
-      <ProfileForm user={user} profile={profile} />
+      {/* Hero — avatar + name + bio */}
+      <div className="flex items-center gap-6">
+        {profile?.avatar_url ? (
+          <Image
+            src={profile.avatar_url}
+            alt="Avatar"
+            width={96}
+            height={96}
+            className="rounded-full object-cover ring-2 ring-white/20"
+          />
+        ) : (
+          <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-full bg-atmosphere-dusk text-3xl font-bold ring-2 ring-white/20">
+            {initials}
+          </div>
+        )}
+        <div className="flex flex-col gap-1">
+          <h1 className="text-2xl font-bold">{displayName}</h1>
+          <p className="text-xs text-white/40">{user.email}</p>
+          {profile?.bio && (
+            <p className="mt-1 text-sm text-white/70">{profile.bio}</p>
+          )}
+        </div>
+      </div>
+
+      <Link
+        href="/profile/edit"
+        className="w-fit rounded-md border border-white/20 px-4 py-2 text-sm text-white/70 hover:border-white/40 hover:text-white"
+      >
+        Edit profile
+      </Link>
 
       {/* Level */}
       <div className="rounded-xl bg-white/5 px-5 py-4">
@@ -83,8 +115,7 @@ export default async function ProfilePage() {
               >
                 {a.emoji}
               </div>
-              {/* Tooltip */}
-              <div className="pointer-events-none absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-36 rounded-lg bg-atmosphere-night border border-white/10 px-3 py-2 text-center opacity-0 shadow-lg transition-opacity group-hover:opacity-100 z-10">
+              <div className="pointer-events-none absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-36 rounded-lg border border-white/10 bg-atmosphere-night px-3 py-2 text-center opacity-0 shadow-lg transition-opacity group-hover:opacity-100 z-10">
                 <p className="text-xs font-semibold text-white">{a.title}</p>
                 <p className="mt-0.5 text-xs text-white/50">{a.desc}</p>
               </div>
