@@ -31,24 +31,28 @@ export default async function AppLayout({ children }) {
         </form>
       </header>
 
-      {/* Tablet sidebar (md only, hidden on lg+) */}
+      {/* Tablet sidebar (md only) */}
       <div className="hidden md:block lg:hidden">
         <Sidebar />
       </div>
 
-      {/* Desktop 3-column layout */}
-      <div className="hidden lg:grid lg:grid-cols-[260px_1fr_260px] lg:max-w-7xl lg:mx-auto">
-        <DesktopLeft />
-        <main className="min-h-dvh border-x border-white/[0.04] px-8 py-10 animate-fade-in">
-          {children}
-        </main>
-        <DesktopRight />
-      </div>
+      {/* Content grid — 1 col on mobile/tablet, 3 col on desktop */}
+      <div className="lg:grid lg:grid-cols-[260px_1fr_260px] lg:max-w-7xl lg:mx-auto">
 
-      {/* Mobile + tablet content */}
-      <main className="lg:hidden mx-auto w-full max-w-2xl flex-1 px-5 py-8 pt-24 pb-28 md:ml-56 md:pb-8 md:pt-10 animate-fade-in">
-        {children}
-      </main>
+        {/* Left panel — desktop only */}
+        <DesktopLeft />
+
+        {/* Main — always rendered, spacing adapts per breakpoint */}
+        <main className="px-5 py-8 pt-24 pb-28 md:ml-56 md:pt-10 md:pb-8 lg:ml-0 lg:min-h-dvh lg:border-x lg:border-white/[0.04] lg:px-10 lg:py-10 animate-fade-in">
+          <div className="mx-auto w-full max-w-2xl lg:max-w-none">
+            {children}
+          </div>
+        </main>
+
+        {/* Right panel — desktop only */}
+        <DesktopRight />
+
+      </div>
 
       {/* Mobile bottom nav */}
       <div className="md:hidden">
