@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AchievementRow } from "@/app/(app)/profile/page";
+import { AchievementRow } from "@/components/achievement-row";
 
 const ACHIEVEMENT = {
   id: "app_installed",

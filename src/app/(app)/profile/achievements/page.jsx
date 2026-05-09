@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { computeUnlockedAchievements } from "@/lib/gamification";
-import { AchievementRow } from "@/app/(app)/profile/page";
+import { AchievementRow } from "@/components/achievement-row";
 import InstallAchievement from "@/components/install-achievement";
 import { ArrowLeft } from "lucide-react";
 
