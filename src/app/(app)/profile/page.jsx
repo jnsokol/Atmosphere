@@ -27,32 +27,31 @@ export default async function ProfilePage() {
   return (
     <section className="flex flex-col">
 
-      {/* Banner + avatar */}
-      <div className="relative -mx-5 mb-16">
-        {/* Gradient banner */}
-        <div className="h-32 w-full bg-gradient-to-br from-atmosphere-day/30 via-atmosphere-dusk/20 to-transparent" />
+      {/* Banner — bleeds to all edges including top header gap */}
+      <div className="relative -mx-5 -mt-8 mb-16">
+        <div className="h-44 w-full bg-gradient-to-br from-atmosphere-day/40 via-atmosphere-dusk/25 to-[#0b0d18]" />
 
-        {/* Avatar — overlaps banner */}
-        <div className="absolute -bottom-12 left-5 flex items-end gap-4">
+        {/* Avatar overlapping bottom of banner */}
+        <div className="absolute -bottom-12 left-5">
           {profile?.avatar_url ? (
             <Image
               src={profile.avatar_url}
               alt="Avatar"
               width={88}
               height={88}
-              className="rounded-3xl object-cover ring-2 ring-atmosphere-night shadow-xl"
+              className="rounded-3xl object-cover ring-[3px] ring-atmosphere-night shadow-2xl"
             />
           ) : (
-            <div className="flex h-[88px] w-[88px] items-center justify-center rounded-3xl bg-gradient-to-br from-atmosphere-day/40 to-atmosphere-dusk/40 text-3xl font-bold ring-2 ring-atmosphere-night shadow-xl">
+            <div className="flex h-[88px] w-[88px] items-center justify-center rounded-3xl bg-gradient-to-br from-atmosphere-day/50 to-atmosphere-dusk/50 text-3xl font-bold ring-[3px] ring-atmosphere-night shadow-2xl">
               {initials}
             </div>
           )}
         </div>
 
-        {/* Edit button top-right */}
+        {/* Edit button — bottom-right of banner */}
         <Link
           href="/profile/edit"
-          className="absolute bottom-3 right-0 flex items-center gap-1.5 rounded-full border border-white/10 bg-atmosphere-night/80 px-3 py-1.5 text-xs text-white/50 hover:border-white/25 hover:text-white transition-all backdrop-blur-sm"
+          className="absolute bottom-3 right-0 flex items-center gap-1.5 rounded-full border border-white/10 bg-atmosphere-night/70 px-3 py-1.5 text-xs text-white/50 hover:border-white/25 hover:text-white transition-all backdrop-blur-md"
         >
           <Settings size={11} /> Edit profile
         </Link>
@@ -105,7 +104,7 @@ export default async function ProfilePage() {
       {/* Divider */}
       <div className="border-t border-white/[0.05] mb-8" />
 
-      {/* Achievements */}
+      {/* Achievements preview */}
       <div>
         <div className="flex items-center justify-between mb-5">
           <p className="text-[11px] font-semibold uppercase tracking-widest text-white/20">Achievements</p>
@@ -113,30 +112,18 @@ export default async function ProfilePage() {
         </div>
 
         <div className="flex flex-col gap-3">
-          {achievements.map((a) => (
-            <div
-              key={a.id}
-              className={`flex items-center gap-4 transition-opacity ${a.unlocked ? "" : "opacity-35"}`}
-            >
-              <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-2xl ${
-                a.unlocked
-                  ? "bg-white/10 ring-1 ring-white/15"
-                  : "bg-white/[0.03] grayscale"
-              }`}>
-                {a.emoji}
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className={`text-sm font-semibold ${a.unlocked ? "text-white" : "text-white/50"}`}>
-                  {a.title}
-                </p>
-                <p className="text-xs text-white/30 mt-0.5">{a.desc}</p>
-              </div>
-              {a.unlocked && (
-                <span className="shrink-0 text-green-400 text-base">✓</span>
-              )}
-            </div>
+          {achievements.slice(0, 4).map((a) => (
+            <AchievementRow key={a.id} a={a} />
           ))}
         </div>
+
+        <Link
+          href="/profile/achievements"
+          className="mt-5 flex w-full items-center justify-center gap-2 rounded-2xl border border-white/[0.07] py-3 text-sm text-white/40 hover:border-white/15 hover:text-white/70 transition-all"
+        >
+          See all {achievements.length} achievements
+          <span className="text-white/20">→</span>
+        </Link>
       </div>
 
     </section>
@@ -148,6 +135,23 @@ function StatItem({ value, label }) {
     <div className="flex flex-col gap-1">
       <span className="text-2xl font-bold">{value}</span>
       <span className="text-xs text-white/30">{label}</span>
+    </div>
+  );
+}
+
+export function AchievementRow({ a }) {
+  return (
+    <div className={`flex items-center gap-4 transition-opacity ${a.unlocked ? "" : "opacity-35"}`}>
+      <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-2xl ${
+        a.unlocked ? "bg-white/10 ring-1 ring-white/15" : "bg-white/[0.03] grayscale"
+      }`}>
+        {a.emoji}
+      </div>
+      <div className="min-w-0 flex-1">
+        <p className={`text-sm font-semibold ${a.unlocked ? "text-white" : "text-white/50"}`}>{a.title}</p>
+        <p className="text-xs text-white/30 mt-0.5">{a.desc}</p>
+      </div>
+      {a.unlocked && <span className="shrink-0 text-green-400">✓</span>}
     </div>
   );
 }
