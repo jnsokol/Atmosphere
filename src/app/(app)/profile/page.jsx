@@ -27,43 +27,36 @@ export default async function ProfilePage() {
   return (
     <section className="flex flex-col gap-8">
 
-      {/* Profile header — soft gradient glow behind avatar + name */}
-      <div className="relative rounded-3xl px-5 py-6 overflow-hidden">
-        {/* Soft background glow */}
-        <div className="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-br from-atmosphere-day/10 via-atmosphere-dusk/8 to-transparent" />
-        <div className="pointer-events-none absolute -top-10 -left-10 h-40 w-40 rounded-full bg-atmosphere-day/10 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-8 -right-8 h-32 w-32 rounded-full bg-atmosphere-dusk/10 blur-3xl" />
-
-        <div className="relative flex items-start justify-between gap-4">
-          <div className="flex items-center gap-4">
-            {profile?.avatar_url ? (
-              <Image
-                src={profile.avatar_url}
-                alt="Avatar"
-                width={80}
-                height={80}
-                className="rounded-2xl object-cover ring-1 ring-white/10 shadow-xl"
-              />
-            ) : (
-              <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-atmosphere-day/40 to-atmosphere-dusk/40 text-2xl font-bold ring-1 ring-white/10 shadow-xl">
-                {initials}
-              </div>
-            )}
-            <div>
-              <h1 className="text-xl font-bold">{displayName}</h1>
-              <p className="text-xs text-white/30 mt-0.5">{user.email}</p>
-              {profile?.bio && (
-                <p className="mt-1.5 text-sm text-white/55 leading-relaxed max-w-[200px]">{profile.bio}</p>
-              )}
+      {/* Profile header */}
+      <div className="flex items-start justify-between gap-4 pt-2">
+        <div className="flex items-center gap-4">
+          {profile?.avatar_url ? (
+            <Image
+              src={profile.avatar_url}
+              alt="Avatar"
+              width={80}
+              height={80}
+              className="rounded-2xl object-cover ring-1 ring-white/10"
+            />
+          ) : (
+            <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-atmosphere-day/30 to-atmosphere-dusk/30 text-2xl font-bold ring-1 ring-white/10">
+              {initials}
             </div>
+          )}
+          <div>
+            <h1 className="text-xl font-bold">{displayName}</h1>
+            <p className="text-xs text-white/30 mt-0.5">{user.email}</p>
+            {profile?.bio && (
+              <p className="mt-1.5 text-sm text-white/55 leading-relaxed max-w-[180px]">{profile.bio}</p>
+            )}
           </div>
-          <Link
-            href="/profile/edit"
-            className="shrink-0 flex items-center gap-1.5 rounded-full border border-white/10 px-3 py-1.5 text-xs text-white/40 hover:border-white/20 hover:text-white transition-all"
-          >
-            <Settings size={11} /> Edit
-          </Link>
         </div>
+        <Link
+          href="/profile/edit"
+          className="shrink-0 flex items-center gap-1.5 rounded-full border border-white/10 px-3 py-1.5 text-xs text-white/40 hover:border-white/20 hover:text-white transition-all"
+        >
+          <Settings size={11} /> Edit
+        </Link>
       </div>
 
       {/* Level — standalone bar, tap to see all levels */}
