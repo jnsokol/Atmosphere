@@ -8,7 +8,7 @@ export default async function DesktopLeft() {
   const { data: { user } } = await supabase.auth.getUser();
 
   const [{ data: entries }, { data: profile }] = await Promise.all([
-    supabase.from("mood_entries").select("created_at, mood").eq("user_id", user.id).order("created_at", { ascending: false }).limit(200),
+    supabase.from("mood_entries").select("*, weather_snapshots(id)").eq("user_id", user.id).order("created_at", { ascending: false }).limit(200),
     supabase.from("profiles").select("*").eq("user_id", user.id).single(),
   ]);
 
