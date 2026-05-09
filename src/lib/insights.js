@@ -16,6 +16,9 @@ export function computeInsights(rows) {
       moodByWeekday: buildMoodByWeekday(rows),
       moodVsPressure: buildMoodVsPressure(withWeather),
       moodVsCloudCover: buildMoodVsCloudCover(withWeather),
+      moodVsTemperature: buildMoodVsTemperature(withWeather),
+      moodByTimeOfDay: buildMoodByTimeOfDay(rows),
+      moodByWeatherCondition: buildMoodByWeatherCondition(withWeather),
     },
     insights: generateInsights(rows, withWeather),
   };
@@ -63,6 +66,72 @@ function buildMoodVsCloudCover(rows) {
       cloud: r.weather_snapshots.cloud_cover_pct,
       mood: r.mood,
     }));
+}
+
+function buildMoodVsTemperature(rows) {
+  return rows
+    .filter((r) => r.weather_snapshots?.temp_c != null)
+    .map((r) => ({
+      temp: Math.round(r.weather_snapshots.temp_c),
+      mood: r.mood,
+    }));
+}
+
+const TIME_SLOTS = ["Morning", "Afternoon", "Evening", "Night"];
+
+function getTimeSlot(hour) {
+  if (hour < 12) return "Morning";
+  if (hour < 18) return "Afternoon";
+  if (hour < 22) return "Evening";
+  return "Night";
+}
+
+function buildMoodByTimeOfDay(rows) {
+  const buckets = Object.fromEntries(TIME_SLOTS.map((s) => [s, []]));
+  rows.forEach((r) => {
+    const hour = new Date(r.created_at).getHours();
+    buckets[getTimeSlot(hour)].push(r.mood);
+  });
+  return TIME_SLOTS.map((slot) => ({
+    slot,
+    avg: buckets[slot].length
+      ? +(buckets[slot].reduce((a, b) => a + b, 0) / buckets[slot].length).toFixed(2)
+      : null,
+    n: buckets[slot].length,
+  }));
+}
+
+function normaliseCondition(desc) {
+  if (!desc) return null;
+  const d = desc.toLowerCase();
+  if (d.includes("thunder")) return "Thunderstorm";
+  if (d.includes("snow") || d.includes("sleet") || d.includes("blizzard")) return "Snow";
+  if (d.includes("fog") || d.includes("mist") || d.includes("haze")) return "Fog";
+  if (d.includes("drizzle") || d.includes("light rain")) return "Drizzle";
+  if (d.includes("rain") || d.includes("shower")) return "Rain";
+  if (d.includes("overcast")) return "Overcast";
+  if (d.includes("cloudy") || d.includes("cloud")) return "Cloudy";
+  if (d.includes("partly") || d.includes("partial")) return "Partly cloudy";
+  if (d.includes("clear") || d.includes("sunny") || d.includes("fair")) return "Clear";
+  return null;
+}
+
+function buildMoodByWeatherCondition(rows) {
+  const buckets = {};
+  rows.forEach((r) => {
+    const cond = normaliseCondition(r.weather_snapshots?.description);
+    if (!cond) return;
+    if (!buckets[cond]) buckets[cond] = [];
+    buckets[cond].push(r.mood);
+  });
+  return Object.entries(buckets)
+    .filter(([, moods]) => moods.length >= 3)
+    .map(([condition, moods]) => ({
+      condition,
+      avg: +(moods.reduce((a, b) => a + b, 0) / moods.length).toFixed(2),
+      n: moods.length,
+    }))
+    .sort((a, b) => b.avg - a.avg);
 }
 
 function generateInsights(rows, withWeather) {

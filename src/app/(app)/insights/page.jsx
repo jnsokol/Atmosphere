@@ -4,6 +4,9 @@ import MoodOverTimeChart from "@/components/charts/mood-over-time";
 import MoodByWeekdayChart from "@/components/charts/mood-by-weekday";
 import MoodVsPressureChart from "@/components/charts/mood-vs-pressure";
 import MoodVsCloudChart from "@/components/charts/mood-vs-cloud";
+import MoodVsTemperatureChart from "@/components/charts/mood-vs-temperature";
+import MoodByHourChart from "@/components/charts/mood-by-hour";
+import MoodByWeatherChart from "@/components/charts/mood-by-weather";
 
 const MIN_ENTRIES = 5;
 
@@ -67,6 +70,22 @@ export default async function InsightsPage() {
       {charts.moodVsCloudCover.length >= 5 && (
         <ChartSection title="Mood vs. cloud cover">
           <MoodVsCloudChart data={charts.moodVsCloudCover} />
+        </ChartSection>
+      )}
+
+      <ChartSection title="Mood by time of day">
+        <MoodByHourChart data={charts.moodByTimeOfDay} />
+      </ChartSection>
+
+      {charts.moodVsTemperature.length >= 5 && (
+        <ChartSection title="Mood vs. temperature">
+          <MoodVsTemperatureChart data={charts.moodVsTemperature} />
+        </ChartSection>
+      )}
+
+      {charts.moodByWeatherCondition.length >= 2 && (
+        <ChartSection title="Mood by weather condition">
+          <MoodByWeatherChart data={charts.moodByWeatherCondition} />
         </ChartSection>
       )}
     </section>
