@@ -11,11 +11,11 @@ export default function SplashScreen() {
       return;
     }
 
-    const hold  = setTimeout(() => setPhase("out"),  900);
+    const hold  = setTimeout(() => setPhase("out"),  1800);
     const done  = setTimeout(() => {
       setPhase("done");
       sessionStorage.setItem("atmosphere_splashed", "1");
-    }, 1500);
+    }, 2600);
 
     return () => { clearTimeout(hold); clearTimeout(done); };
   }, []);
