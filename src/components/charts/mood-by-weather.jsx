@@ -31,8 +31,8 @@ export default function MoodByWeatherChart({ data }) {
         <Tooltip
           contentStyle={{ background: "#1a1d2e", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8 }}
           labelStyle={{ color: "rgba(255,255,255,0.5)", fontSize: 11 }}
-          itemStyle={{ fontSize: 11, fontWeight: 600 }}
-          formatter={(val, name) => [val ?? "—", "Avg mood"]}
+          itemStyle={{ fontSize: 11, fontWeight: 600, color: "#7cb9e8" }}
+          formatter={(val, name, props) => [`${val ?? "—"} (n=${props.payload.n})`, "Avg mood"]}
           cursor={{ fill: "rgba(255,255,255,0.04)" }}
         />
         <Bar dataKey="avg" name="Avg mood" radius={[6, 6, 0, 0]} maxBarSize={48}>

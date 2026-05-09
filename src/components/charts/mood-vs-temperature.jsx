@@ -25,10 +25,16 @@ export default function MoodVsTemperatureChart({ data }) {
         />
         <Tooltip
           cursor={{ strokeDasharray: "3 3" }}
-          contentStyle={{ background: "#1a1d2e", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8 }}
-          labelStyle={{ color: "rgba(255,255,255,0.5)", fontSize: 11 }}
-          itemStyle={{ fontSize: 11, fontWeight: 600 }}
-          formatter={(val, name) => [val, name === "temp" ? "Temp (°C)" : "Mood"]}
+          content={({ active, payload }) => {
+            if (!active || !payload?.length) return null;
+            const { mood, temp } = payload[0].payload;
+            return (
+              <div style={{ background: "#1a1d2e", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, padding: "8px 12px", fontSize: 11 }}>
+                <p style={{ color: "#7cb9e8", fontWeight: 600, margin: 0 }}>Mood: {mood}</p>
+                <p style={{ color: "#f4a261", fontWeight: 600, margin: "4px 0 0" }}>Temp: {temp}°C</p>
+              </div>
+            );
+          }}
         />
         <Scatter data={data} fill="#f4a261" fillOpacity={0.7} />
       </ScatterChart>

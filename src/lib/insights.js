@@ -20,6 +20,7 @@ export function computeInsights(rows) {
       moodByTimeOfDay: buildMoodByTimeOfDay(rows),
       moodByWeatherCondition: buildMoodByWeatherCondition(withWeather),
       moodVsEnergy: buildMoodVsEnergy(rows),
+      stressVsMood: buildStressVsMood(rows),
     },
     insights: generateInsights(rows, withWeather),
   };
@@ -119,6 +120,12 @@ function buildMoodVsEnergy(rows) {
     .map((r) => ({ mood: r.mood, energy: r.energy }));
 }
 
+function buildStressVsMood(rows) {
+  return rows
+    .filter((r) => r.mood != null && r.stress != null)
+    .map((r) => ({ mood: r.mood, stress: r.stress }));
+}
+
 function normaliseCondition(desc) {
   if (!desc) return null;
   const d = desc.toLowerCase();
@@ -196,6 +203,23 @@ function generateInsights(rows, withWeather) {
       const worst = byDay.reduce((a, b) => (a.mean < b.mean ? a : b));
       if (best.mean - worst.mean >= 1) {
         insights.push(`${best.day} is your best day on average (${best.mean.toFixed(1)}), ${worst.day} your lowest (${worst.mean.toFixed(1)}).`);
+      }
+    }
+  }
+
+  // Stress: highest vs lowest weekday
+  const stressRows = rows.filter((r) => r.stress != null);
+  if (stressRows.length >= MIN_N) {
+    const byDay = DAYS.map((d, i) => {
+      const dayRows = stressRows.filter((r) => new Date(r.created_at).getDay() === i);
+      return { day: d, mean: dayRows.length >= 3 ? meanBy(dayRows, (r) => r.stress) : null };
+    }).filter((d) => d.mean !== null);
+
+    if (byDay.length >= 3) {
+      const highest = byDay.reduce((a, b) => (a.mean > b.mean ? a : b));
+      const lowest  = byDay.reduce((a, b) => (a.mean < b.mean ? a : b));
+      if (highest.mean - lowest.mean >= 1) {
+        insights.push(`${highest.day} tends to be your most stressful day (${highest.mean.toFixed(1)}), ${lowest.day} the calmest (${lowest.mean.toFixed(1)}).`);
       }
     }
   }

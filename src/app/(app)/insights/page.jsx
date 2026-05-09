@@ -8,6 +8,7 @@ import MoodVsTemperatureChart from "@/components/charts/mood-vs-temperature";
 import MoodByHourChart from "@/components/charts/mood-by-hour";
 import MoodByWeatherChart from "@/components/charts/mood-by-weather";
 import MoodVsEnergyChart from "@/components/charts/mood-vs-energy";
+import StressVsMoodChart from "@/components/charts/stress-vs-mood";
 
 const MIN_ENTRIES = 5;
 
@@ -93,6 +94,12 @@ export default async function InsightsPage() {
       {charts.moodVsEnergy.length >= 5 && (
         <ChartSection title="Mood vs. energy">
           <MoodVsEnergyChart data={charts.moodVsEnergy} />
+        </ChartSection>
+      )}
+
+      {charts.stressVsMood.length >= 5 && (
+        <ChartSection title="Stress vs. mood">
+          <StressVsMoodChart data={charts.stressVsMood} />
         </ChartSection>
       )}
     </section>
