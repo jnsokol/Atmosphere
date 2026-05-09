@@ -19,6 +19,7 @@ export function computeInsights(rows) {
       moodVsTemperature: buildMoodVsTemperature(withWeather),
       moodByTimeOfDay: buildMoodByTimeOfDay(rows),
       moodByWeatherCondition: buildMoodByWeatherCondition(withWeather),
+      moodVsEnergy: buildMoodVsEnergy(rows),
     },
     insights: generateInsights(rows, withWeather),
   };
@@ -38,14 +39,16 @@ function buildMoodOverTime(rows) {
 const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 function buildMoodByWeekday(rows) {
-  const buckets = DAYS.map((d) => ({ day: d, moods: [] }));
+  const buckets = DAYS.map((d) => ({ day: d, moods: [], energies: [] }));
   rows.forEach((r) => {
     const dow = new Date(r.created_at).getDay();
     buckets[dow].moods.push(r.mood);
+    if (r.energy != null) buckets[dow].energies.push(r.energy);
   });
-  return buckets.map(({ day, moods }) => ({
+  return buckets.map(({ day, moods, energies }) => ({
     day,
-    avg: moods.length ? +(moods.reduce((a, b) => a + b, 0) / moods.length).toFixed(2) : null,
+    avg:       moods.length    ? +(moods.reduce((a, b) => a + b, 0)    / moods.length).toFixed(2)    : null,
+    avgEnergy: energies.length ? +(energies.reduce((a, b) => a + b, 0) / energies.length).toFixed(2) : null,
     n: moods.length,
   }));
 }
@@ -87,18 +90,28 @@ function getTimeSlot(hour) {
 }
 
 function buildMoodByTimeOfDay(rows) {
-  const buckets = Object.fromEntries(TIME_SLOTS.map((s) => [s, []]));
+  const buckets = Object.fromEntries(TIME_SLOTS.map((s) => [s, { moods: [], energies: [] }]));
   rows.forEach((r) => {
     const hour = new Date(r.created_at).getHours();
-    buckets[getTimeSlot(hour)].push(r.mood);
+    const slot = getTimeSlot(hour);
+    buckets[slot].moods.push(r.mood);
+    if (r.energy != null) buckets[slot].energies.push(r.energy);
   });
-  return TIME_SLOTS.map((slot) => ({
-    slot,
-    avg: buckets[slot].length
-      ? +(buckets[slot].reduce((a, b) => a + b, 0) / buckets[slot].length).toFixed(2)
-      : null,
-    n: buckets[slot].length,
-  }));
+  return TIME_SLOTS.map((slot) => {
+    const { moods, energies } = buckets[slot];
+    return {
+      slot,
+      avg:       moods.length    ? +(moods.reduce((a, b) => a + b, 0)    / moods.length).toFixed(2)    : null,
+      avgEnergy: energies.length ? +(energies.reduce((a, b) => a + b, 0) / energies.length).toFixed(2) : null,
+      n: moods.length,
+    };
+  });
+}
+
+function buildMoodVsEnergy(rows) {
+  return rows
+    .filter((r) => r.mood != null && r.energy != null)
+    .map((r) => ({ mood: r.mood, energy: r.energy }));
 }
 
 function normaliseCondition(desc) {
