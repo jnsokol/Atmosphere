@@ -1,3 +1,6 @@
+> **© 2025 Jan Sokołowski. All rights reserved.**
+> Copying, redistribution, or use of this code in whole or in part without explicit written permission from the author is strictly prohibited.
+
 # Atmosphere
 
 A mood tracker that automatically enriches every entry with weather data and surfaces correlations between your emotional state and your environment.

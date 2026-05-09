@@ -140,13 +140,13 @@ export default async function DashboardPage() {
       </div>
 
       {/* Level — no card */}
-      <div>
+      <Link href="/profile/levels" className="block group">
         <div className="flex items-center justify-between mb-1.5">
-          <p className="text-sm font-semibold">
+          <p className="text-sm font-semibold group-hover:text-atmosphere-day transition-colors">
             <span className="text-white/35 font-normal text-xs mr-1.5">Lv.{lvl.level}</span>
             {lvl.title}
           </p>
-          <span className="text-xs text-white/25">{xp} XP</span>
+          <span className="text-xs text-white/25 group-hover:text-white/40 transition-colors">{xp} XP →</span>
         </div>
         <div className="h-2 w-full overflow-hidden rounded-full bg-white/[0.08]">
           <div
@@ -157,7 +157,7 @@ export default async function DashboardPage() {
         {next && (
           <p className="mt-1.5 text-xs text-white/20">{next.xpRequired - xp} XP to {next.title}</p>
         )}
-      </div>
+      </Link>
 
       {/* Next achievement — no card */}
       {nextAchievement && (
