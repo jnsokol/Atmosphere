@@ -1,17 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { computeStreak, computeXP, getLevelInfo } from "@/lib/gamification";
-import { LayoutDashboard, PenLine, Clock, BarChart2, User, BookOpen } from "lucide-react";
-import SidebarActiveLink from "@/components/sidebar-active-link";
-
-const NAV = [
-  { href: "/dashboard", Icon: LayoutDashboard, label: "Home"     },
-  { href: "/log",       Icon: PenLine,         label: "Log"      },
-  { href: "/journal",   Icon: BookOpen,        label: "Journal"  },
-  { href: "/history",   Icon: Clock,           label: "History"  },
-  { href: "/insights",  Icon: BarChart2,       label: "Insights" },
-  { href: "/profile",   Icon: User,            label: "Profile"  },
-];
+import DesktopNav from "@/components/desktop-nav";
 
 export default async function DesktopLeft() {
   const supabase = await createClient();
@@ -38,7 +28,7 @@ export default async function DesktopLeft() {
         </span>
       </Link>
 
-      {/* Profile card */}
+      {/* Profile */}
       <div className="flex flex-col items-center text-center gap-2 pt-2">
         {profile?.avatar_url ? (
           <img src={profile.avatar_url} alt="" className="h-16 w-16 rounded-full object-cover ring-2 ring-white/10" />
@@ -78,11 +68,9 @@ export default async function DesktopLeft() {
       </div>
 
       {/* Nav */}
-      <nav className="flex flex-col gap-0.5 flex-1">
-        {NAV.map(({ href, Icon, label }) => (
-          <SidebarActiveLink key={href} href={href} label={label} Icon={Icon} />
-        ))}
-      </nav>
+      <div className="flex-1">
+        <DesktopNav />
+      </div>
 
       <Link href="/profile" className="text-xs text-white/20 hover:text-white/50 transition-colors text-center">
         Edit profile →
